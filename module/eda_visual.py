@@ -6,7 +6,12 @@ class Visualizer:
     def __init__(self, data, columns):
         self.data = data
         self.columns = columns
-
+        
+    def corration_plot(self):
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(data=self.data.select_dtypes(include="number").corr(), annot=True, fmt=".2f", linewidths=0.5, cmap="Blues")
+        plt.show()
+        
     def target_plot(self):
         plt.figure(figsize=(12, 15))
         for i, col in enumerate(self.columns):
