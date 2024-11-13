@@ -24,11 +24,30 @@
 ### 2. 데이터
   - Google Advanced Data Analytics Professional Certificate 프로그램의 일부로 제공되는 데이터 셋 사용
   - 앱 내 사용자 행동 로그를 시뮬레이션 하도록 설계되어 있음.
-  #### - EDA
+ #### - EDA
   
    ###### 데이터 구조
+   | Column                   | Data Type | Description                                      |
+|--------------------------|-----------|--------------------------------------------------|
+| `label`                  | object    | The churn status label indicating churn (if available). |
+| `sessions`               | int64     | Number of sessions within a specified period.    |
+| `drives`                 | int64     | Number of drives initiated within a specified period. |
+| `total_sessions`         | float64   | Total count of sessions recorded for the user.   |
+| `n_days_after_onboarding`| int64     | Number of days since the user onboarded.         |
+| `total_navigations_fav1` | int64     | Number of times the user navigated to their first saved location. |
+| `total_navigations_fav2` | int64     | Number of times the user navigated to their second saved location. |
+| `driven_km_drives`       | float64   | Total kilometers driven in recorded drives.      |
+| `duration_minutes_drives`| float64   | Total minutes spent driving in recorded drives.  |
+| `activity_days`          | int64     | Number of active days recorded for the user.     |
+| `driving_days`           | int64     | Number of days the user was engaged in driving.  |
+| `device`                 | object    | Type of device used by the user.                 |
+
+      -  관측치: 14,999 개
+      -  변수: 12 개
+      - `label` 컬럼을 제외한 모든 컬럼은 결측값 없음. `label`은 700개의 결측값을 가짐.
    ###### Target 분포
-   
+   ![label_distribution](https://github.com/user-attachments/assets/f9ad1128-e074-4b04-97a8-ad926e5e7e44)
+
    ###### Feature 별 이탈 분포
 
 ### 3. 모델링
