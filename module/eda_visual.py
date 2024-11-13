@@ -10,7 +10,7 @@ class Visualizer:
     def target_plot(self):
         plt.figure(figsize=(12, 15))
         for i, col in enumerate(self.columns):
-            if col != "label":
+            if col != "device":
                 plt.subplot(6, 2, i + 1)
                 sns.kdeplot(
                     x=self.data[col],
