@@ -7,8 +7,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-from views import data
-from views import about
+from views import data, about
+
 
 # Home Page
 # Provides an overview of the app and its purpose.

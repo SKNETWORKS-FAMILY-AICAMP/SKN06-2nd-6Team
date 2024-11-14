@@ -16,26 +16,6 @@ def show_data():
     st.divider()
     # describe()
     st.subheader(":two: Data Statistics", divider=True)
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(
-            f"""
-            | Dataset Statistics | Value |
-| --- | --- |
-| 변수의 개수 | {data.shape[1]} |
-| 데이터의 개수 | {data.shape[0]} |
-| 결측치의 개수 | {data.isnull().sum().sum()} |
-| 중복된 행의 개수 | {data.duplicated().sum()} |
-            """
-        )
-    with col2:
-        st.markdown(
-            f"""
-                    | Variable Types | Value |
-| --- | --- |
-| Numerical | {data.select_dtypes(include=['int64', 'float64']).shape[1]} |
-| Categorical | {data.select_dtypes(include=['object']).shape[1]} |"""
-        )
     st.dataframe(data.describe())
     st.divider()
     # head()
