@@ -23,7 +23,17 @@ def show_dashboard():
             return updated_layout
 
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
-            mui.Paper("First item", key="first_item")
+            mui.Card(
+                mui.CardMedia(  # 썸네일 이미지
+                    sx={
+                        "height": 140,
+                        "backgroundImage": f"url(image/부실감자.jpeg)",
+                        # "mt": 0.5
+                    }
+                ),
+                key="first_item",
+            )
+            st.image("image/부실감자.jpeg")
             mui.Paper("Second item", key="second_item")
             mui.Paper("Third item", key="third_item")
             mui.Paper("Fourth item", key="fourth_item")
