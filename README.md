@@ -60,14 +60,33 @@ ________________________________________________________________________________
 ______________________________________________________________________________________________________
 
 ## 3. 모델링
- ### - Machine Learning
+ ### a. Machine Learning
  #### **사용 모델**
+ (1) Logistic Regression
+ <br>
+ (2) Gradient Boosting Machine
+ <br>
+ (3) Random Forest
+ <br>
+ (4) K-Nearest Neighbors
+ <br>
+ (5) XGBoost
+ 
  #### **모델 별 평가지표**
+  Metric      | Logistic Regression (LR) | Gradient Boosting Machine (GBM) | Random Forest (RF) | K-Nearest Neighbors (KNN) | XGBoost (XGB) |
+|-------------|---------------------------|----------------------------------|---------------------|---------------------------|---------------|
+| Accuracy    | 0.828322                  | 0.824476                         | 0.821678            | 0.801748                  | 0.811189      |
+| Precision   | 0.836831                  | 0.834962                         | 0.835213            | 0.826389                  | 0.838625      |
+| Recall      | 0.983000                  | 0.980450                         | 0.975776            | 0.960901                  | 0.954101      |
+| F1 Score    | 0.904045                  | 0.901876                         | 0.900039            | 0.888583                  | 0.892644      |
+| ROC-AUC     | 0.758722                  | 0.752880                         | 0.732124            | 0.530733                  | 0.709396      |
+
  #### **하이퍼파라미터 조정**
+ 
  #### **모델 별 Feature Importance**
 
  
- ### - Deep Learning
+ ### b. Deep Learning
  #### **평가지표**
  ##### a. Confusion Matrix
  ![confusion](https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426)
