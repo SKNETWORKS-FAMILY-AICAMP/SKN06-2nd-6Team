@@ -63,12 +63,17 @@ ________________________________________________________________________________
  ### - Machine Learning
  #### **사용 모델**
  #### **모델 별 평가지표**
+ #### **하이퍼파라미터 조정**
  #### **모델 별 Feature Importance**
 
  
  ### - Deep Learning
  #### **사용 모델**
- #### **모델 별 평가지표**
+ #### **평가지표**
+ ##### - Confusion Matrix
+ ##### - Model Performance Metrics
+ ##### - Receiver Operating Characteristic(ROC) Curve
+
  #### **모델 별 Feature Importance**
  
 ## 4. 결과
