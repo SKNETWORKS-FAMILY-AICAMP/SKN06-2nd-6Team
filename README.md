@@ -68,13 +68,13 @@ ________________________________________________________________________________
 
  
  ### - Deep Learning
- #### **사용 모델**
  #### **평가지표**
  ##### - Confusion Matrix
+ ![confusion](https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426)
  ##### - Model Performance Metrics
+ ![model performance metrics](https://github.com/user-attachments/assets/a2235ed9-8b05-441f-b26b-1fe2f4b105f7)
  ##### - Receiver Operating Characteristic(ROC) Curve
-
- #### **모델 별 Feature Importance**
+ ![roc](https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2)
  
 ## 4. 결과
 
