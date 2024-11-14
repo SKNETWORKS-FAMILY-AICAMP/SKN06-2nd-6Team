@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 from views import data
+from views import about
 
 # Home Page
 # Provides an overview of the app and its purpose.
@@ -45,7 +46,7 @@ st.set_page_config(
 with st.sidebar:
     choose = option_menu(
         menu_title="Churn prediction",
-        options=["About", "Data", "Predictor", "Dash borad"],
+        options=["About", "Data", "Predictor", "Dash board"],
         icons=[
             "bi bi-cursor",
             "bi bi-archive",
@@ -70,16 +71,17 @@ with st.sidebar:
 
 # About Page
 if choose == "About":
-    # data.show_about()
+    about.show_about()
     pass
 # Data Page
 if choose == "Data":
     data.show_data()
+    pass
 # Predictor Page
 if choose == "Predictor":
     # data.show_predictor()
     pass
 # Dashboard Page
-if choose == "Dash borad":
+if choose == "Dashboard":
     # data.show_dashboard()
     pass
