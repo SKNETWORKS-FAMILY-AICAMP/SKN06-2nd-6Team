@@ -15,6 +15,7 @@ def show_data():
     )
     st.divider()
     # describe()
+    #
     st.subheader(":two: Data Statistics", divider=True)
     st.dataframe(data.describe())
     st.divider()

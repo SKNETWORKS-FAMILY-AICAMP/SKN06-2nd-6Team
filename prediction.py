@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-from views import data, about
+from views import data, about, dashboard
 
 
 # Home Page
@@ -72,16 +72,13 @@ with st.sidebar:
 # About Page
 if choose == "About":
     about.show_about()
-    pass
 # Data Page
-if choose == "Data":
+elif choose == "Data":
     data.show_data()
-    pass
 # Predictor Page
-if choose == "Predictor":
+elif choose == "Predictor":
     # data.show_predictor()
     pass
 # Dashboard Page
-if choose == "Dashboard":
-    # data.show_dashboard()
-    pass
+elif choose == "Dash board":
+    dashboard.show_dashboard()
