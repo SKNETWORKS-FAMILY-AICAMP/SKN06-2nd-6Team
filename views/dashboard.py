@@ -10,7 +10,23 @@ def show_dashboard():
     data = pd.read_csv("data/waze_dataset.csv")
     columns = data.columns.drop("label")
 
-    with elements("dashboard"):
+    # 예측기 성능 대시보드
+    with elements("dashboard", key="prediction"):
+        layout = [
+            # Parameters: element_identifier, x_pos, y_pos, width, height
+            dashboard.Item("prediction_image_1", 0, 0, 2.5, 1.5, isResizable=False),
+            dashboard.Item("prediction_image_2", 5, 0, 2.5, 1.5, isResizable=False),
+            dashboard.Item("prediction_image_3", 0, 2, 2.5, 1.5, isResizable=False),
+            dashboard.Item("prediction_image_4", 5, 2, 2.5, 1.5, isResizable=False),
+        ]
+
+        def handle_layout_change(updated_layout):
+            return updated_layout
+
+        # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
+
+    # 멤버별 이미지
+    with elements("dashboard", key="member"):
         layout = [
             # Parameters: element_identifier, x_pos, y_pos, width, height
             dashboard.Item("member_image_1", 0, 0, 2.5, 1.5, isResizable=False),
