@@ -13,10 +13,10 @@ def show_dashboard():
     with elements("dashboard"):
         layout = [
             # Parameters: element_identifier, x_pos, y_pos, width, height
-            dashboard.Item("member_image_1", 0, 0, 2, 1),
-            dashboard.Item("member_image_2", 2, 0, 2, 1),
-            dashboard.Item("member_image_3", 4, 0, 2, 1),
-            dashboard.Item("member_image_4", 6, 0, 2, 1),
+            dashboard.Item("member_image_1", 0, 0, 2.5, 1.5, isResizable=False),
+            dashboard.Item("member_image_2", 2.5, 0, 2.5, 1.5, isResizable=False),
+            dashboard.Item("member_image_3", 5, 0, 2.5, 1.5, isResizable=False),
+            dashboard.Item("member_image_4", 7.5, 0, 2.5, 1.5, isResizable=False),
         ]
 
         def handle_layout_change(updated_layout):
@@ -32,27 +32,31 @@ def show_dashboard():
                 mui.Box(
                     component="img",
                     src=image_1,
-                    alt="Correlation Image",
-                    sx={"width": "100%", "height": "auto"},
-                )
+                    alt="김승현",
+                    sx={"width": "100%", "height": "100%"},
+                ),
+                mui.Box("이름: 김승현", sx={"width": "100%"}),
             with mui.Paper(key="member_image_2"):
                 mui.Box(
                     component="img",
                     src=image_2,
-                    alt="Correlation Image",
-                    sx={"width": "100%", "height": "auto"},
-                )
+                    alt="박서윤",
+                    sx={"width": "100%", "height": "100%"},
+                ),
+                mui.Box("이름: 박서윤", sx={"width": "100%"}),
             with mui.Paper(key="member_image_3"):
                 mui.Box(
                     component="img",
                     src=image_3,
-                    alt="Correlation Image",
-                    sx={"width": "100%", "height": "auto"},
-                )
+                    alt="백하은",
+                    sx={"width": "100%", "height": "100%"},
+                ),
+                mui.Box("이름: 백하은", sx={"width": "100%"}),
             with mui.Paper(key="member_image_4"):
                 mui.Box(
                     component="img",
                     src=image_4,
-                    alt="Correlation Image",
-                    sx={"width": "100%", "height": "auto"},
-                )
+                    alt="정유진",
+                    sx={"width": "100%", "height": "100%"},
+                ),
+                mui.Box("이름: 정유진", sx={"width": "100%"}),
