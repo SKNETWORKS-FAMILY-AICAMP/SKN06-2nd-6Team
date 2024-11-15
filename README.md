@@ -86,6 +86,7 @@ ________________________________________________________________________________
  #### **하이퍼파라미터 조정**
  - rou-auc 기준으로 성능이 상대적으로 좋은 LR과 GBM에 대해 하이퍼파라미터 튜닝 진행
  - 학습 결과 평가지표
+   
      Metric      | Logistic Regression (LR) | Gradient Boosting Machine (GBM) |
    |-------------|---------------------------|----------------------------------|
    | Accuracy    | 0.826224                  | 0.824825                         |
@@ -97,9 +98,20 @@ ________________________________________________________________________________
  #### **모델 별 Feature Importance**
  - 하이퍼 파라미터 조정으로 성능이 크게 개선되지 않아, feature importnace 확인을 진행하여 중요도가 낮은 feature(device)를 제외시켜 학습 재진행.
  - feature importance 
+   ![feature importance_GBM](https://github.com/user-attachments/assets/ddc3873e-06d5-44b8-b10d-a9747ef1f763)
 
- #### **'device' Feature 제외 평가지표**
- 
+ #### **'device' Feature 제외 평가지표** 
+ - 최적 파라미터 찾은 후 학습시킨 최종 결과
+ - 유의미한 성능 개선이 없었음.
+   
+      Metric      | Logistic Regression (LR) | Gradient Boosting Machine (GBM) |
+   |-------------|---------------------------|----------------------------------|
+   | Accuracy    | 0.826224                  | 0.824825                         |
+   | Precision   | 0.834053                  | 0.832615                         |
+   | Recall      | 0.984700                  | 0.985125                        |
+   | F1 Score    | 0.903138                  | 0.902472                         |
+   | ROC-AUC     | 0.745144                  | 0.740471                         |
+   
  
  ### b. Deep Learning
  #### **평가지표**
