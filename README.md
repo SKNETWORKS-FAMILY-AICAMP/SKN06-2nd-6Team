@@ -50,14 +50,26 @@ ________________________________________________________________________________
       -  관측치: 14,999 개
       -  변수: 13 개
       - `label` 컬럼을 제외한 모든 컬럼은 결측값 없음. `label`은 700개의 결측값을 가짐.
-   ##### b. Target 분포
-   ![label_distribution](https://github.com/user-attachments/assets/f9ad1128-e074-4b04-97a8-ad926e5e7e44)
-   ##### c. Feature 분포
-   ![feautre_plot](https://github.com/user-attachments/assets/5ecec3f2-eb65-4355-b9d2-8fa324c82fe8)
-   ##### d. Feature 별 이탈 분포
-   ![target_plot](https://github.com/user-attachments/assets/1119e570-1a62-43d3-8827-6247b22d3bda)
-   ##### e. 다중공선성(Feature 간 상관관계) 확인
-   ![corr](https://github.com/user-attachments/assets/2841617a-8baf-4860-996f-175eec8ed526)
+##### b. Target 분포
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f9ad1128-e074-4b04-97a8-ad926e5e7e44" alt="Target Distribution" width="600"/>
+</p>
+
+##### c. Feature 분포
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5ecec3f2-eb65-4355-b9d2-8fa324c82fe8" alt="Feature Distribution" width="600"/>
+</p>
+
+##### d. Feature 별 이탈 분포
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1119e570-1a62-43d3-8827-6247b22d3bda" alt="Feature Churn Distribution" width="600"/>
+</p>
+
+##### e. 다중공선성(Feature 간 상관관계) 확인
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2841617a-8baf-4860-996f-175eec8ed526" alt="Multicollinearity Check" width="600"/>
+</p>
+
    
 ______________________________________________________________________________________________________
 
@@ -97,8 +109,12 @@ ________________________________________________________________________________
    
  #### **모델 별 Feature Importance**
  - 하이퍼 파라미터 조정으로 성능이 크게 개선되지 않아, feature importnace 확인을 진행하여 중요도가 낮은 feature(device)를 제외시켜 학습 재진행.
- - feature importance 
-   ![feature importance_GBM](https://github.com/user-attachments/assets/ddc3873e-06d5-44b8-b10d-a9747ef1f763)
+ - feature importance plot
+   <b>
+
+   <p align="center">
+  <img src="https://github.com/user-attachments/assets/ddc3873e-06d5-44b8-b10d-a9747ef1f763" alt="Feature importance" width="600"/>
+</p>
 
  #### **'device' Feature 제외 평가지표** 
  - 최적 파라미터 찾은 후 학습시킨 최종 결과
@@ -116,11 +132,19 @@ ________________________________________________________________________________
  ### b. Deep Learning
  #### **평가지표**
  ##### a. Confusion Matrix
- ![confusion](https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426)
+ <p align="center">
+ <img src="https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426" alt="confusion matrix" width="600"/>
+ </p>
+ 
  ##### b. Model Performance Metrics
- ![model performance metrics](https://github.com/user-attachments/assets/a2235ed9-8b05-441f-b26b-1fe2f4b105f7)
+ <p align="center">
+ <img src="https://github.com/user-attachments/assets/a2235ed9-8b05-441f-b26b-1fe2f4b105f7" alt="model performance metrics" width="600"/>
+ </p>
+ 
  ##### c. Receiver Operating Characteristic(ROC) Curve
- ![roc](https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2)
+ <p align="center">
+ <img src="https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2" alt="roc" width="600/>
+ </p>
  
 ## 4. 결과
 
