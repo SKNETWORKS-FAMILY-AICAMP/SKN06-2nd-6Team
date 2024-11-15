@@ -143,7 +143,7 @@ ________________________________________________________________________________
  
  ##### c. Receiver Operating Characteristic(ROC) Curve
  <p align="center">
- <img src="https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2" alt="roc" width="600/>
+ <img src="https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2" alt="roc" width="600"/>
  </p>
  
 ## 4. 결과
