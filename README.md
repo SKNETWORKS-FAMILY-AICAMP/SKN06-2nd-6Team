@@ -48,7 +48,7 @@ ________________________________________________________________________________
 | `device`                 | object    | Type of device used by the user.                 |
 
       -  관측치: 14,999 개
-      -  변수: 12 개
+      -  변수: 13 개
       - `label` 컬럼을 제외한 모든 컬럼은 결측값 없음. `label`은 700개의 결측값을 가짐.
    ##### b. Target 분포
    ![label_distribution](https://github.com/user-attachments/assets/f9ad1128-e074-4b04-97a8-ad926e5e7e44)
