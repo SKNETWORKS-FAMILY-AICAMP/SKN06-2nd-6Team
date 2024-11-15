@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
 
-
+def 
 def show_dashboard():
     st.header(":bar_chart: Dashboard")
     data = pd.read_csv("data/waze_dataset.csv")
