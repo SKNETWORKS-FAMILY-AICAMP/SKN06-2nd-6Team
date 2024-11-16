@@ -252,6 +252,7 @@ c. Machine Learning & Deep Learning confusion matrix 비교
   </tr>
   <tr>
     <td align="center">
+       <img src = "https://github.com/user-attachments/assets/12871d57-709e-43f5-b6c7-eb168c615d5b" alt="Predictor" width="500"/>
       <br />
       <b>Predictor</b>
     </td>
