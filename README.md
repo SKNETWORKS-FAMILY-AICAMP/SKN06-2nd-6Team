@@ -215,7 +215,7 @@ c. Machine Learning & Deep Learning confusion matrix 비교
          <b>ML Confusion Matrix</b>
       </td>
       <td align="center">
-      <img src= alt="Data" width="300" />
+      <img src= "https://github.com/user-attachments/assets/6e7d35ad-23e8-48d6-99f5-89643be3effd" alt="DL confusion matrix" width="300" />
       <br />
       <b>DL Confusion Matrix</b>
     </td>
