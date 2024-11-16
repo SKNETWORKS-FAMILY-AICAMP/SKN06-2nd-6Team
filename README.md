@@ -1,17 +1,19 @@
 # SKN06-2nd-6Team
 
-## 팀 가나디
+## 아무래도 귀엽조
 2차 단위 프로젝트-정유진, 김승현, 백하은, 박서윤
 
 팀원 소개
 
 | 팀장 | 팀원1 | 팀원2 | 팀원3 |
 | --- | --- | --- | --- |
-||||
-| --- | --- | --- | --- |
+|<img src="https://github.com/user-attachments/assets/5a96b969-a5b1-4d00-8b41-dcc3c51cb747" alt="busil gamza" width="250"/>|<img src="https://github.com/user-attachments/assets/5561d8f1-e92c-400b-8419-44ea0e90466c" alt="seunghyun" width="250"/>|<img src="https://github.com/user-attachments/assets/7b0758fc-6927-474c-a39a-ff72f9360fdf" alt="haeun" width="250"/>|<img src="https://github.com/user-attachments/assets/1b667da5-59ff-405a-aff9-8145e919272a" alt="seoyoon" width="250"/>|
+| 정유진 | 김승현 | 백하은 | 박서윤 |
+
 
 ## 1. 프로젝트 소개
-   
+   ### 프로젝트 기간
+   - 2024.11.13-2024.11.14
  
    ### 개요
    - 모바일 내비게이션 어플인 "Waze"의 데이터 셋을 사용하여, Wasze 어플리케이션 서비스의 잠재 이탈 고객을 파악을 목표로 한다.
@@ -75,7 +77,7 @@ ________________________________________________________________________________
 
 ## 3. 모델링
  ### a. Machine Learning
- #### **사용 모델**
+ #### - **사용 모델**
  (1) Logistic Regression
  <br>
  (2) Gradient Boosting Machine
@@ -86,7 +88,7 @@ ________________________________________________________________________________
  <br>
  (5) XGBoost
  
- #### **모델 별 평가지표**
+ #### - **모델 별 평가지표**
   Metric      | Logistic Regression (LR) | Gradient Boosting Machine (GBM) | Random Forest (RF) | K-Nearest Neighbors (KNN) | XGBoost (XGB) |
 |-------------|---------------------------|----------------------------------|---------------------|---------------------------|---------------|
 | Accuracy    | 0.828322                  | 0.824476                         | 0.821678            | 0.801748                  | 0.811189      |
@@ -95,7 +97,7 @@ ________________________________________________________________________________
 | F1 Score    | 0.904045                  | 0.901876                         | 0.900039            | 0.888583                  | 0.892644      |
 | ROC-AUC     | 0.758722                  | 0.752880                         | 0.732124            | 0.530733                  | 0.709396      |
 
- #### **하이퍼파라미터 조정**
+ #### - **하이퍼파라미터 조정**
  - roc-auc 기준으로 성능이 상대적으로 좋은 LR과 GBM에 대해 하이퍼파라미터 튜닝 진행
  - 학습 결과 평가지표
    
@@ -107,7 +109,7 @@ ________________________________________________________________________________
    | F1 Score    | 0.902924                  | 0.903100                         |
    | ROC-AUC     | 0.739459                  | 0.744959                         |
    
- #### **모델 별 Feature Importance**
+ #### - **모델 별 Feature Importance**
  - 하이퍼 파라미터 조정으로 성능이 크게 개선되지 않아, feature importnace 확인을 진행하여 중요도가 낮은 feature(device)를 제외시켜 학습 재진행.
  - feature importance plot
    <b>
@@ -116,7 +118,7 @@ ________________________________________________________________________________
   <img src="https://github.com/user-attachments/assets/ddc3873e-06d5-44b8-b10d-a9747ef1f763" alt="Feature importance" width="600"/>
 </p>
 
- #### **'device' Feature 제외 평가지표** 
+ #### - **'device' Feature 제외 평가지표** 
  - 최적 파라미터 찾은 후 학습시킨 최종 결과
  - 유의미한 성능 개선이 없었음.
    
@@ -130,24 +132,76 @@ ________________________________________________________________________________
    
  
  ### b. Deep Learning
- #### **평가지표**
+ #### - **평가지표**
  ##### a. Confusion Matrix
  <p align="center">
- <img src="https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426" alt="confusion matrix" width="600"/>
+ <img src="https://github.com/user-attachments/assets/6e7d35ad-23e8-48d6-99f5-89643be3effd" width="600"/>
  </p>
  
  ##### b. Model Performance Metrics
  <p align="center">
  <img src="https://github.com/user-attachments/assets/a2235ed9-8b05-441f-b26b-1fe2f4b105f7" alt="model performance metrics" width="600"/>
  </p>
- 
- ##### c. Receiver Operating Characteristic(ROC) Curve
+
+##### c. Training Loss and Accuracy Over Epochs
  <p align="center">
- <img src="https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2" alt="roc" width="600"/>
+ <img src="https://github.com/user-attachments/assets/22b9b199-c7e7-4dae-b1d8-2d1d88ff8b12" width="600"/>
+ </p>
+ 
+ ##### d. Receiver Operating Characteristic(ROC) Curve
+ <p align="center">
+ <img src="https://github.com/user-attachments/assets/8af3eb43-e1fc-4172-bade-9e56057050ff" alt="roc" width="600"/>
  </p>
  
 ## 4. 결과
 
 ## 5. 서비스구현 ( Streamlit )
+### 페이지 구성
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b12643b2-27f5-453c-9473-8f13e8fb6efc" alt="About" width="500" />
+      <br />
+      <b>About</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a6181360-643e-43cc-8c50-f52331fa5347" alt="Data" width="500" />
+      <br />
+      <b>Data</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <br />
+      <b>Predictor</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/2bee2846-aae3-4069-bf2e-710b479a3e1b" alt="Dashboard" width="500" />
+      <br />
+      <b>Dashboard</b>
+    </td>
+  </tr>
+</table>
+
+- About
+  : Waze 어플과 예측 서비스에 대해 소개합니다.
+- Data
+  : 예측 모델에 사용한 데이터에 대해 알아봅니다.
+- Predictor
+  : 예측 서비스를 제공합니다.
+- Dashboard
+  : 예측 모델애 대한 평가 지표를 확인할 수 있습니다.
 
 ## 6. 회고
+정유진:
+<br>
+<br>
+김승현: 벌써 두번째 프로젝트를 진행하며, 다시 한번 제가 가진 부족함을 깨달았습니다. 그래도 딥러닝 및 머신러닝이 어떤 방식으로 적용되는지 느끼는 계기가 된 것 같습니다.
+<br>
+<br>
+백하은: 에러를 해결하고 결과를 보았을 때의 성취감...이래서 코딩하나봅니다.
+<br>
+<br>
+박서윤:
+
