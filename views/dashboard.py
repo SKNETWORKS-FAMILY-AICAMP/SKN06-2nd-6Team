@@ -8,16 +8,10 @@ from module.dl_test import metrics
 
 
 def graphs(metrics_dict, key, mode="metric", graph="Bar"):
+    # 그래프 모드
     if mode == "metric":
-        pass
-    elif mode == "roc":
-        pass
-    elif mode == "precision-recall":
-        pass
-    with mui.Box(key=key, sx={"height": 500}, display="flex"):
         metric = metrics_dict["metric"]
         value = metrics_dict["value"]
-
         nivo_data = []
         for i in range(len(metric)):
             data = {}
@@ -25,6 +19,14 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
             value[i] = round(value[i], 4)
             data["pred_test"] = value[i]
             nivo_data.append(data)
+    elif mode == "roc":
+        pass
+    elif mode == "precision-recall":
+        pass
+    elif mode == "confusion_matrix":
+        pass
+    # 그래프
+    with mui.Box(key=key, sx={"height": 500}, display="flex"):
         if graph == "Bar":  # Accuracy, Recall, Precision, F1
             # 그래프 표시
             nivo.Bar(
@@ -104,6 +106,23 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
                     },
                 },
             )
+        elif graph == "Heatmap":
+            nivo.Heatmap(
+                data=nivo_data,
+                keys=["pred_test"],
+                indexBy="metric",
+                margin={"top": 70, "right": 40, "bottom": 40, "left": 40},
+                theme={
+                    "background": "#FFFFFF",
+                    "textColor": "#31333F",
+                    "tooltip": {
+                        "container": {
+                            "background": "#FFFFFF",
+                            "color": "#31333F",
+                        }
+                    },
+                },
+            )
 
 
 def member_image(handle_layout_change):
@@ -128,7 +147,6 @@ def member_image(handle_layout_change):
                 alt="김승현",
                 sx={"width": "100%", "height": "100%"},
             ),
-            mui.Box("이름: 김승현", sx={"width": "100%"})
         with mui.Paper(key="member_image_2"):
             mui.Box(
                 component="img",
@@ -136,7 +154,6 @@ def member_image(handle_layout_change):
                 alt="박서윤",
                 sx={"width": "100%", "height": "100%"},
             ),
-            mui.Box("이름: 박서윤", sx={"width": "100%"})
         with mui.Paper(key="member_image_3"):
             mui.Box(
                 component="img",
@@ -144,7 +161,6 @@ def member_image(handle_layout_change):
                 alt="백하은",
                 sx={"width": "100%", "height": "100%"},
             ),
-            mui.Box("이름: 백하은", sx={"width": "100%"})
         with mui.Paper(key="member_image_4"):
             mui.Box(
                 component="img",
@@ -152,7 +168,6 @@ def member_image(handle_layout_change):
                 alt="정유진",
                 sx={"width": "100%", "height": "100%"},
             ),
-            mui.Box("이름: 정유진", sx={"width": "100%"})
 
 
 def show_dashboard():
@@ -193,8 +208,8 @@ def show_dashboard():
         )
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            graphs(metrics_dict, "prediction_image_1", graph="Bar")
-            graphs(metrics_dict, "prediction_image_2", graph="Radar")
+            graphs(metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
+            graphs(metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
 
         # 멤버별 이미지
         mui.Typography(
