@@ -143,6 +143,7 @@ ________________________________________________________________________________
 
  ##### c. epoch, batch size 조정
  - epoch과 batch size를 조정하여 모델의 성능 개선
+   
  | Epoch | Batch size | Train Loss | Valid Loss | Valid Accuracy |
  |-------|------------|------------|------------|----------------|
  | 100   | 32         | 0.4121     | 0.4117     | 0.8231         |
@@ -159,11 +160,12 @@ ________________________________________________________________________________
  - StepLR
  - CosineAnnealingLR
  - CosineAnnealingWarmRestarts 사용
- | Scheduler                  | Train Loss | Valid Loss | Valid Accuracy |
- |----------------------------|------------|------------|----------------|
- | StepLR                     | 0.4079     | 0.4120     | 0.8234         |
- | CosineAnnealingLR          | 0.4043     | 0.4121     | 0.8234         |
- | CosineAnnealingWarmRestarts| 0.4068     | 0.4114     | 0.8238         |
+   
+ | Scheduler                   | Train Loss | Valid Loss | Valid Accuracy |
+ |-----------------------------|------------|------------|----------------|
+ | StepLR                      | 0.4079     | 0.4120     | 0.8234         |
+ | CosineAnnealingLR           | 0.4043     | 0.4121     | 0.8234         |
+ | CosineAnnealingWarmRestarts | 0.4068     | 0.4114     | 0.8238         |
 
  #### - **평가지표**
  ##### a. Confusion Matrix
