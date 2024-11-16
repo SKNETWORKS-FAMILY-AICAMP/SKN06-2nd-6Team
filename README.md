@@ -198,6 +198,16 @@ ________________________________________________________________________________
  
 ## 4. 결과
 
+a. Machine Learning
+ - Gradient Boosting Model 최종 사용.
+ - 평가 지표
+
+b. Deep Learning
+ - 결과
+
+c. Machine Learning & Deep Learning confusion matrix 비교
+
+
 ## 5. 서비스구현 ( Streamlit )
 ### 페이지 구성
 
