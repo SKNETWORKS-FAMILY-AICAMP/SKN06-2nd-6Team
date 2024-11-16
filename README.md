@@ -135,17 +135,22 @@ ________________________________________________________________________________
  #### - **평가지표**
  ##### a. Confusion Matrix
  <p align="center">
- <img src="https://github.com/user-attachments/assets/88998091-bc81-4789-b8f4-a5874f7cb426" alt="confusion matrix" width="600"/>
+ <img src="https://github.com/user-attachments/assets/6e7d35ad-23e8-48d6-99f5-89643be3effd" width="600"/>
  </p>
  
  ##### b. Model Performance Metrics
  <p align="center">
  <img src="https://github.com/user-attachments/assets/a2235ed9-8b05-441f-b26b-1fe2f4b105f7" alt="model performance metrics" width="600"/>
  </p>
- 
- ##### c. Receiver Operating Characteristic(ROC) Curve
+
+##### c. Training Loss and Accuracy Over Epochs
  <p align="center">
- <img src="https://github.com/user-attachments/assets/513d40fa-fc4e-4811-8ca5-bcb2426211c2" alt="roc" width="600"/>
+ <img src="https://github.com/user-attachments/assets/22b9b199-c7e7-4dae-b1d8-2d1d88ff8b12" width="600"/>
+ </p>
+ 
+ ##### d. Receiver Operating Characteristic(ROC) Curve
+ <p align="center">
+ <img src="https://github.com/user-attachments/assets/8af3eb43-e1fc-4172-bade-9e56057050ff" alt="roc" width="600"/>
  </p>
  
 ## 4. 결과
