@@ -20,9 +20,12 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
             data["pred_test"] = value[i]
             nivo_data.append(data)
     elif mode == "roc":
-        pass
+        fpr = metrics["fpr"]
+        tpr = metrics["tpr"]
+        roc_auc = metrics["roc_auc"]
     elif mode == "precision-recall":
-        pass
+        precision = metrics["precision"]
+        recall = metrics["recall"]
     elif mode == "confusion_matrix":
         pass
     # 그래프
@@ -106,23 +109,65 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
                     },
                 },
             )
-        elif graph == "Heatmap":
-            nivo.Heatmap(
-                data=nivo_data,
-                keys=["pred_test"],
-                indexBy="metric",
-                margin={"top": 70, "right": 40, "bottom": 40, "left": 40},
-                theme={
-                    "background": "#FFFFFF",
-                    "textColor": "#31333F",
-                    "tooltip": {
-                        "container": {
-                            "background": "#FFFFFF",
-                            "color": "#31333F",
-                        }
-                    },
-                },
-            )
+
+
+def graph_matrix(y_test, y_pred_list, key):
+    with mui.Box(key=key, sx={"height": 500}, display="flex"):
+        # MATRIX
+        y_pred_list = y_pred_list.reshape(y_test.shape)
+        y_actu = pd.Series(y_test, name="Actual")
+        y_pred = pd.Series(y_pred_list, name="Predicted")
+        df_confusion = pd.crosstab(
+            y_actu, y_pred, rownames=["Actual"], colnames=["Predicted"]
+        )
+        df_confusion.columns = ["Retained", "Churned"]
+        df_confusion.index = ["Retained", "Churned"]
+        heatmap_data = []
+        for index, row in df_confusion.iterrows():
+            row_data = {
+                "id": index,
+                "data": [{"x": col, "y": val} for col, val in row.items()],
+            }
+            heatmap_data.append(row_data)
+
+        nivo.HeatMap(
+            data=heatmap_data,
+            keys=["x"],
+            indexBy="id",
+            margin={"top": 60, "right": 130, "bottom": 60, "left": 90},
+            axisTop={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": -45,
+                "legend": "Columns",
+            },
+            axisRight=None,
+            axisBottom={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": 0,
+                "legend": "Columns",
+            },
+            axisLeft={
+                "tickSize": 5,
+                "tickPadding": 5,
+                "tickRotation": 0,
+                "legend": "Rows",
+            },
+            cellOpacity=1,
+            cellBorderColor={"from": "color", "modifiers": [["darker", 0.4]]},
+            legends=[
+                {
+                    "anchor": "bottom-right",
+                    "direction": "column",
+                    "translateX": 120,
+                    "itemWidth": 100,
+                    "itemHeight": 14,
+                    "itemsSpacing": 2,
+                    "symbolSize": 14,
+                }
+            ],
+        )
 
 
 def member_image(handle_layout_change):
@@ -210,6 +255,7 @@ def show_dashboard():
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
             graphs(metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
             graphs(metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
+            graph_matrix(y_test, y_pred_list, "prediction_image_3")
 
         # 멤버별 이미지
         mui.Typography(
