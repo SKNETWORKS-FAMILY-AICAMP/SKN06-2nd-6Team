@@ -4,8 +4,82 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
 from sklearn.metrics import confusion_matrix
-import plotly.express as px
 from module.dl_test import metrics
+
+
+def graphs(metrics_dict):
+    # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
+    with mui.Box(key="prediction_image_1", sx={"height": 500}, display="flex"):
+        metric = metrics_dict["metric"]
+        value = metrics_dict["value"]
+
+        nivo_data = []
+        for i in range(len(metric)):
+            data = {}
+            data["metric"] = metric[i]
+            value[i] = round(value[i], 4)
+            data["pred_test"] = value[i]
+            nivo_data.append(data)
+        # 그래프 표시
+        nivo.Bar(
+            data=nivo_data,
+            keys=["pred_test"],
+            indexBy="metric",
+            margin={"top": 70, "right": 40, "bottom": 40, "left": 40},
+            colors={"scheme": "paired"},
+            colorBy="indexValue",
+            labelPosition="end",
+            labelOffset={8},
+            theme={
+                "background": "#FFFFFF",
+                "textColor": "#31333F",
+                "tooltip": {
+                    "container": {
+                        "background": "#FFFFFF",
+                        "color": "#33CCFF",
+                    }
+                },
+            },
+        )
+
+    with mui.Box(key="prediction_image_2", sx={"height": 500}, display="flex"):
+        nivo.Radar(
+            data=nivo_data,
+            keys=["pred_test"],
+            indexBy="metric",
+            valueFormat=">-.2f",
+            margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
+            borderColor={"from": "color"},
+            gridLabelOffset=36,
+            dotSize=10,
+            dotColor={"theme": "background"},
+            dotBorderWidth=2,
+            motionConfig="wobbly",
+            legends=[
+                {
+                    "anchor": "top-left",
+                    "direction": "column",
+                    "translateX": -50,
+                    "translateY": -40,
+                    "itemWidth": 80,
+                    "itemHeight": 20,
+                    "itemTextColor": "#999",
+                    "symbolSize": 12,
+                    "symbolShape": "circle",
+                    "effects": [{"on": "hover", "style": {"itemTextColor": "#000"}}],
+                }
+            ],
+            theme={
+                "background": "#FFFFFF",
+                "textColor": "#31333F",
+                "tooltip": {
+                    "container": {
+                        "background": "#FFFFFF",
+                        "color": "#31333F",
+                    }
+                },
+            },
+        )
 
 
 def member_image(layout, handle_layout_change):
@@ -61,8 +135,8 @@ def show_dashboard():
     with elements("dashboard"):
         layout = [
             # Parameters: element_identifier, x_pos, y_pos, width, height
-            dashboard.Item("prediction_image_1", 0, 0, 5, 3, isDragable=True),
-            dashboard.Item("prediction_image_2", 5, 0, 5, 3, isDragable=True),
+            dashboard.Item("prediction_image_1", 0, 0, 5, 3),
+            dashboard.Item("prediction_image_2", 5, 0, 5, 3),
             dashboard.Item("prediction_image_3", 0, 4, 5, 3),
             dashboard.Item("prediction_image_4", 5, 4, 5, 3),
             dashboard.Item("member_image_1", 0, 6, 2.5, 1.5, isResizable=False),
@@ -75,64 +149,7 @@ def show_dashboard():
             return updated_layout
 
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
-            # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            with mui.Box(key="prediction_image_1", sx={"height": 500}, display="flex"):
-                metric = metrics_dict["metric"]
-                value = metrics_dict["value"]
-
-                nivo_data = []
-                for i in range(len(metric)):
-                    data = {}
-                    data["metric"] = metric[i]
-                    value[i] = round(value[i], 4)
-                    data["pred_test"] = value[i]
-                    nivo_data.append(data)
-                # 그래프 표시
-                nivo.Bar(
-                    data=nivo_data,
-                    keys=["pred_test"],
-                    indexBy="metric",
-                )
-
-            with mui.Box(key="prediction_image_2", sx={"height": 500}, display="flex"):
-                nivo.Radar(
-                    data=nivo_data,
-                    keys=["pred_test"],
-                    indexBy="metric",
-                    valueFormat=">-.2f",
-                    margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
-                    borderColor={"from": "color"},
-                    gridLabelOffset=36,
-                    dotSize=10,
-                    dotColor={"theme": "background"},
-                    dotBorderWidth=2,
-                    motionConfig="wobbly",
-                    legends=[
-                        {
-                            "anchor": "top-left",
-                            "direction": "column",
-                            "translateX": -50,
-                            "translateY": -40,
-                            "itemWidth": 80,
-                            "itemHeight": 20,
-                            "itemTextColor": "#999",
-                            "symbolSize": 12,
-                            "symbolShape": "circle",
-                            "effects": [
-                                {"on": "hover", "style": {"itemTextColor": "#000"}}
-                            ],
-                        }
-                    ],
-                    theme={
-                        "background": "#FFFFFF",
-                        "textColor": "#31333F",
-                        "tooltip": {
-                            "container": {
-                                "background": "#FFFFFF",
-                                "color": "#31333F",
-                            }
-                        },
-                    },
-                )
+            # 평가지표 시각화
+            graphs(metrics_dict)
             # 멤버별 이미지
             member_image(layout, handle_layout_change)
