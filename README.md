@@ -207,6 +207,20 @@ b. Deep Learning
 
 c. Machine Learning & Deep Learning confusion matrix 비교
 
+<table>
+   <tr>
+      <td align="center">
+         <img src = "https://github.com/user-attachments/assets/1216bbb4-d9c7-497a-945d-ede61bdccfef" alt = "ML confusion matrix" width = "300" />
+         <br />
+         <b>ML Confusion Matrix</b>
+      </td>
+      <td align="center">
+      <img src= alt="Data" width="300" />
+      <br />
+      <b>DL Confusion Matrix</b>
+    </td>
+   </tr>
+</table>
 
 ## 5. 서비스구현 ( Streamlit )
 ### 페이지 구성
