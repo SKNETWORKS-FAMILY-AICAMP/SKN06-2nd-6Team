@@ -157,14 +157,51 @@ ________________________________________________________________________________
 
 ## 5. 서비스구현 ( Streamlit )
 ### 페이지 구성
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/b12643b2-27f5-453c-9473-8f13e8fb6efc" alt="About" width="500" />
+      <br />
+      <b>About</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a6181360-643e-43cc-8c50-f52331fa5347" alt="Data" width="500" />
+      <br />
+      <b>Data</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <br />
+      <b>Predictor</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/2bee2846-aae3-4069-bf2e-710b479a3e1b" alt="Dashboard" width="500" />
+      <br />
+      <b>Dashboard</b>
+    </td>
+  </tr>
+</table>
+
 - About
+  : Waze 어플과 예측 서비스에 대해 소개합니다.
 - Data
+  : 예측 모델에 사용한 데이터에 대해 알아봅니다.
 - Predictor
+  : 예측 서비스를 제공합니다.
 - Dashboard
+  : 예측 모델애 대한 평가 지표를 확인할 수 있습니다.
 
 ## 6. 회고
 정유진:
+<br>
+<br>
 김승현: 벌써 두번째 프로젝트를 진행하며, 다시 한번 제가 가진 부족함을 깨달았습니다. 그래도 딥러닝 및 머신러닝이 어떤 방식으로 적용되는지 느끼는 계기가 된 것 같습니다.
-백하은: 에러를 해결하고 결과를 보았을 때의 쾌감...이래서 코딩하나봅니다.
+<br>
+<br>
+백하은: 에러를 해결하고 결과를 보았을 때의 성취감...이래서 코딩하나봅니다.
+<br>
+<br>
 박서윤:
 
