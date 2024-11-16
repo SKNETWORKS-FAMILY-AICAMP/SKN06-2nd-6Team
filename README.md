@@ -200,11 +200,23 @@ ________________________________________________________________________________
 
 a. Machine Learning
  - Gradient Boosting Model 최종 사용.
- - 평가 지표
+ - 결과
+
+   
+ <img src="https://github.com/user-attachments/assets/82b3cf03-886b-4d5f-879f-5df4f245baa6" alt="roc" width="400"/>
+
+<br>
+<br>
+<br> 
 
 b. Deep Learning
  - 결과
+ 
+<img src="https://github.com/user-attachments/assets/76bba759-ba65-4a2f-b42d-8dc263f3e87b" alt="roc" width="400"/>
 
+<br>
+<br>
+<br>
 c. Machine Learning & Deep Learning confusion matrix 비교
 
 <table>
