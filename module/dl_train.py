@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 import time
 
 # train 함수에 들어가는 valid 부분
@@ -21,11 +20,11 @@ def valid(dataloader, model, loss_fn, device="cpu"):
         acc /= len(dataloader.dataset)
     return loss, acc
 
-def train(dataloader, model, loss_fn, optimizer, device="cpu"):
+def train(dataloader, model, loss_fn, optimizer, scheduler, device="cpu"):
     model.train()
     train_loss = 0
     # 학습률 조정 스케줄러: CosineAnnealingWarmRestarts를 사용하여 학습률을 주기적으로 리셋
-    scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=5, T_mult=1, eta_min=0.00001)
+    scheduler = scheduler
 
     for X, y in dataloader:
         X, y = X.to(device), y.to(device)
@@ -45,7 +44,7 @@ def train(dataloader, model, loss_fn, optimizer, device="cpu"):
     return train_loss
 
 # 학습
-def fit(num_epochs, train_loader, valid_loader, model, loss_fn, optimizer, save_path, patience, device="cpu"):
+def fit(num_epochs, train_loader, valid_loader, model, loss_fn, optimizer, scheduler, save_path, patience, device="cpu"):
     # 손실과 정확도 기록용 리스트 초기화
     train_losses = []
     valid_losses = []
@@ -56,7 +55,7 @@ def fit(num_epochs, train_loader, valid_loader, model, loss_fn, optimizer, save_
     s = time.time()  # 학습 시작 시간 기록
     for epoch in range(num_epochs):
         # 모델 학습
-        train_loss = train(train_loader, model, loss_fn, optimizer)
+        train_loss = train(train_loader, model, loss_fn, optimizer, scheduler)
         # 모델 검증
         valid_loss, valid_acc = valid(valid_loader, model, loss_fn)
         
