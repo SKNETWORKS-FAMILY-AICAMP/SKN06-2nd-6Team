@@ -5,10 +5,8 @@ import joblib
 import torch
 from torch import nn
 import numpy as np
+from module.dl_model import ChurnPredictionModel
 
-
-# sys.path.append('/Users/haeun/Desktop/SKN2nd_bhe/module')
-# from dl_model import ChurnPredictionModel
 
 # Load models
 best_gbm = joblib.load('model/best_gbm.pkl')
