@@ -235,6 +235,7 @@ c. Machine Learning & Deep Learning confusion matrix 비교
 </table>
  - ML: True positive가 매우 높은 편이나 False Positive가 다소 존재함.
  - DL: ML과 마찬가지로 True positive가 매우 높은 편이나 False Positive가 다소 존재함.
+ 
 ## 5. 서비스구현 ( Streamlit )
 ### 페이지 구성
 
