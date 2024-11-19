@@ -7,11 +7,8 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 
 class Preprocessor:
-    def __init__(self, data_path):
-        self.data_path = data_path
-
-    def preprocess(self):
-        data = pd.read_csv(self.data_path, index_col=0)
+    def preprocess(self, data_path):
+        data = pd.read_csv(data_path, index_col=0)
         # 결측치 삭제
         data.dropna(inplace=True)
         # label encoding
@@ -19,7 +16,7 @@ class Preprocessor:
         if "label" in data.columns:
             data["label"] = l_encoder.fit_transform(data["label"])
         # one hot encoding
-        data = pd.get_dummies(data, columns=["device"])
+        data = pd.get_dummies(data, columns=["device"], dtype=np.float32)
         return data
 
 

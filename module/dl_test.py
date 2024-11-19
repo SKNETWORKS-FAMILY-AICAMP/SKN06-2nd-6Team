@@ -36,9 +36,9 @@ def test(test_loader, y_test, best_model, device="cpu"):
     return y_pred_list, y_prob_list
 
 def metrics(test_loader_path, y_test_path, model_path, device="cpu"):
-    test_loader = torch.load(test_loader_path)
+    test_loader = torch.load(test_loader_path, weights_only=False)
     y_test = np.loadtxt(y_test_path)
-    best_model = torch.load(model_path, map_location="cpu")
+    best_model = torch.load(model_path, map_location="cpu", weights_only=False)
     y_pred_list, y_prob_list = test(test_loader, y_test, best_model, device="cpu")
     metrics = {}
     # 성능 평가 지표 계산

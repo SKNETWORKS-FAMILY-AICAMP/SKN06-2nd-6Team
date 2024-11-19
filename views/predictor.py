@@ -6,22 +6,31 @@ import torch
 from torch import nn
 import numpy as np
 from module.dl_model import ChurnPredictionModel
+from module.dataload import Preprocessor
 
 
 # Load models
-best_gbm = joblib.load('model/best_gbm.pkl')
+best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
-    dl_model = torch.load('model/dl_model_outlier.pth', map_location=torch.device('cpu'))
+    dl_model = torch.load("model/dl_model_1.pt", map_location=torch.device("cpu"))
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
-    st.error("Deep Learning Model could not be loaded. Ensure the ChurnPredictionModel class is properly defined.")
+    st.error(
+        "Deep Learning Model could not be loaded. Ensure the ChurnPredictionModel class is properly defined."
+    )
+
 
 # Define function for deep learning model prediction
 def dl_predict(model, inputs):
+    inputs = torch.tensor(inputs, dtype=torch.float32)
+    device = torch.device("cpu")
     with torch.no_grad():
-        inputs = torch.tensor(inputs, dtype=torch.float32)
-        return model(inputs).numpy()
+        inputs = inputs.to(device)
+        y_pred = model(inputs)
+        y_pred = (y_pred > 0.5).type(torch.int32)
+        return y_pred
+
 
 # Streamlit UI
 def show_predictor():
@@ -29,40 +38,45 @@ def show_predictor():
 
     # dataset
     data = pd.read_csv("data/sample_data.csv", index_col=0)
-    st.write("Loaded Dataset:")
+    st.subheader("Loaded Dataset:", divider=True)
     st.write(data)
 
-    if 'device' in data.columns:
-        # Assume 'device' values need to be mapped to 1 or 0
-        data['device'] = data['device'].apply(lambda x: 1 if x == 'iPhone' else 0)  # Adjust condition as needed
-    else:
-        st.error("'device' column not found in the dataset.")
-        return
-    
-    st.write("Preprocessed Dataset:")
+    data = Preprocessor().preprocess("data/sample_data.csv")
+
+    st.subheader("Preprocessed Dataset:", divider=True)
     st.write(data)
 
     # Choose model for prediction
-    model_choice = st.selectbox("Choose the prediction model:", ("Gradient Boosting Machine (GBM)", "Deep Learning Model"))
+    st.subheader("Prediction", divider=True)
+    model_choice = st.selectbox(
+        "Choose the prediction model:",
+        ("Gradient Boosting Machine (GBM)", "Deep Learning Model"),
+    )
 
     if st.button("Predict"):
         # Prepare data for prediction
         features = data.values
 
-
         if model_choice == "Gradient Boosting Machine (GBM)":
             predictions = best_gbm.predict(features)
-            st.write("Predictions (GBM):")
-            st.write(predictions)
-
         elif model_choice == "Deep Learning Model":
             predictions = dl_predict(dl_model, features)
-            st.write("Predictions (Deep Learning Model):")
-            st.write(predictions)
+
+        predictions = pd.DataFrame(predictions, columns=["Churn"], index=data.index)
+        predictions["Churn"] = predictions["Churn"].map({1: "No", 0: "Yes"})
+        yes = predictions[predictions["Churn"] == "Yes"]
+        no = predictions[predictions["Churn"] == "No"]
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write("Yes:", yes.shape[0])
+            st.dataframe(yes, use_container_width=True)
+        with col2:
+            st.write("No:", no.shape[0])
+            st.dataframe(no, use_container_width=True)
+
 
 if __name__ == "__main__":
     show_predictor()
-
 
 
 # 데이터 로드
