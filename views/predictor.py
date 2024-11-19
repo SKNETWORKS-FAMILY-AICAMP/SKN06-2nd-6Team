@@ -67,8 +67,8 @@ def show_predictor():
         predictions["Actual"] = y_test["label"]
         yes = predictions[predictions["Churn"] == "Yes"]
         no = predictions[predictions["Churn"] == "No"]
-        real_yes = y_test[y_test["label"] == "No"]
-        real_no = y_test[y_test["label"] == "Yes"]
+        real_yes = y_test[y_test["label"] == "Yes"]
+        real_no = y_test[y_test["label"] == "No"]
         col1, col2 = st.columns(2)
         with col1:
             st.write(
