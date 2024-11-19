@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
 
 class Preprocessor:
@@ -12,9 +12,8 @@ class Preprocessor:
         # 결측치 삭제
         data.dropna(inplace=True)
         # label encoding
-        l_encoder = LabelEncoder()
         if "label" in data.columns:
-            data["label"] = l_encoder.fit_transform(data["label"])
+            data["label"] = data["label"].map({"churned": 1, "retained": 0})
         # one hot encoding
         data = pd.get_dummies(data, columns=["device"], dtype=np.float32)
         return data
@@ -27,7 +26,9 @@ def set_dataloader(X, y, batch_size=None, mode=None):
         torch.tensor(y, dtype=torch.float32),
     )
     if mode == "train":
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        loader = DataLoader(
+            dataset, batch_size=batch_size, shuffle=True, drop_last=True
+        )
         return loader
     if mode == "test":
         loader = DataLoader(dataset, batch_size=2860)
@@ -37,16 +38,13 @@ def set_dataloader(X, y, batch_size=None, mode=None):
 # 데이터 로드 및 전처리 함수
 def load_data(data, learning_type=None, batch_size=None):
     X = data.drop(["label"], axis=1)
-    if learning_type == "ml":
-        y = data["label"]
-    elif learning_type == "dl":
-        y = np.array(data["label"])
-        y = y.reshape(-1, 1)
+    y = data["label"]
     # 데이터 분할
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, test_size=0.2, random_state=0
     )
-
+    pd.DataFrame(X_test).to_csv("data/X_test.csv")
+    pd.DataFrame(y_test).to_csv("data/y_test.csv")
     # 데이터 표준화
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -58,6 +56,10 @@ def load_data(data, learning_type=None, batch_size=None):
         return X_train, X_valid, y_train, y_valid, X_test, y_test
 
     elif learning_type == "dl":
+        y_train = y_train.values
+        y_train = y_train.reshape(-1, 1)
+        y_test = y_test.values
+        y_test = y_test.reshape(-1, 1)
         train_loader = set_dataloader(
             X_train, y_train, batch_size=batch_size, mode="train"
         )

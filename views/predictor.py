@@ -1,10 +1,7 @@
-import sys
 import streamlit as st
 import pandas as pd
 import joblib
 import torch
-from torch import nn
-import numpy as np
 from module.dl_model import ChurnPredictionModel
 from module.dataload import Preprocessor
 
@@ -13,7 +10,7 @@ from module.dataload import Preprocessor
 best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
-    dl_model = torch.load("model/dl_model.pt", map_location=torch.device("cpu"))
+    dl_model = torch.load("model/dl_model_1.pt", map_location=torch.device("cpu"))
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
     st.error(
@@ -28,8 +25,8 @@ def dl_predict(model, inputs):
     with torch.no_grad():
         inputs = inputs.to(device)
         y_pred = model(inputs)
-        y_pred = (y_pred < 0.5).type(torch.int32)
-        return y_pred
+        y_pred = (y_pred >= 0.5).type(torch.int32)
+        return y_pred.reshape(-1)
 
 
 # Streamlit UI
@@ -37,11 +34,11 @@ def show_predictor():
     st.header(":bookmark_tabs: Customer Churn Prediction Service")
 
     # dataset
-    data = pd.read_csv("data/sample_data.csv", index_col=0)
+    data = pd.read_csv("data/X_test.csv", index_col=0)
     st.subheader("Loaded Dataset:", divider=True)
     st.write(data)
 
-    data = Preprocessor().preprocess("data/sample_data.csv")
+    # data = Preprocessor().preprocess("data/X_test.csv")
 
     st.subheader("Preprocessed Dataset:", divider=True)
     st.write(data)
@@ -63,38 +60,28 @@ def show_predictor():
             predictions = dl_predict(dl_model, features)
 
         predictions = pd.DataFrame(predictions, columns=["Churn"], index=data.index)
-        predictions["Churn"] = predictions["Churn"].map({1: "No", 0: "Yes"})
+        predictions["Churn"] = predictions["Churn"].map({0: "No", 1: "Yes"})
+        y_test = pd.read_csv("data/y_test.csv", index_col=0)
+        y_test.columns = ["label"]
+        y_test["label"] = y_test["label"].map({0: "No", 1: "Yes"})
+        predictions["Actual"] = y_test["label"]
         yes = predictions[predictions["Churn"] == "Yes"]
         no = predictions[predictions["Churn"] == "No"]
+        real_yes = y_test[y_test["label"] == "No"]
+        real_no = y_test[y_test["label"] == "Yes"]
         col1, col2 = st.columns(2)
         with col1:
-            st.write("Yes:", yes.shape[0])
+            st.write(
+                "Yes:",
+                yes.shape[0],
+                "Real Yes:",
+                real_yes.shape[0],
+            )
             st.dataframe(yes, use_container_width=True)
         with col2:
-            st.write("No:", no.shape[0])
+            st.write("No:", no.shape[0], "Real No:", real_no.shape[0])
             st.dataframe(no, use_container_width=True)
 
 
 if __name__ == "__main__":
     show_predictor()
-
-
-# 데이터 로드
-
-# 전처리
-# 임포트
-# rand
-
-
-# 모델 로드
-# ml 모델
-# 돌리고
-# 결과값 받고
-
-
-# dl 모델
-# 돌리고
-# 결과값받고
-
-# 결과 출력
-# 이 사람이 이탈할 것이다/아니다

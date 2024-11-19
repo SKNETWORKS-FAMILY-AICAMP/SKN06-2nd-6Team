@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
 from sklearn.metrics import confusion_matrix
-from module.dl_test import metrics
+from module.test import metrics
 
 
 def graphs(metrics_dict, key, mode="metric", graph="Bar"):
@@ -114,8 +114,7 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
 def graph_matrix(y_test, y_pred_list, key):
     with mui.Box(key=key, sx={"height": 500}, display="flex"):
         # MATRIX
-        y_pred_list = y_pred_list.reshape(y_test.shape)
-        y_actu = pd.Series(y_test, name="Actual")
+        y_actu = pd.Series(y_test.reshape(-1), name="Actual")
         y_pred = pd.Series(y_pred_list, name="Predicted")
         df_confusion = pd.crosstab(
             y_actu, y_pred, rownames=["Actual"], colnames=["Predicted"]
@@ -134,39 +133,25 @@ def graph_matrix(y_test, y_pred_list, key):
             data=heatmap_data,
             keys=["x"],
             indexBy="id",
-            margin={"top": 60, "right": 130, "bottom": 60, "left": 90},
+            margin={"top": 50, "right": 60, "bottom": 50, "left": 90},
             axisTop={
                 "tickSize": 5,
-                "tickPadding": 5,
-                "tickRotation": -45,
-                "legend": "Columns",
+                "tickPadding": 15,
+                "tickRotation": 0,
             },
             axisRight=None,
             axisBottom={
                 "tickSize": 5,
-                "tickPadding": 5,
+                "tickPadding": 15,
                 "tickRotation": 0,
-                "legend": "Columns",
             },
             axisLeft={
                 "tickSize": 5,
                 "tickPadding": 5,
                 "tickRotation": 0,
-                "legend": "Rows",
             },
             cellOpacity=1,
             cellBorderColor={"from": "color", "modifiers": [["darker", 0.4]]},
-            legends=[
-                {
-                    "anchor": "bottom-right",
-                    "direction": "column",
-                    "translateX": 120,
-                    "itemWidth": 100,
-                    "itemHeight": 14,
-                    "itemsSpacing": 2,
-                    "symbolSize": 14,
-                }
-            ],
         )
 
 
@@ -217,11 +202,20 @@ def member_image(handle_layout_change):
 
 def show_dashboard():
     st.header(":bar_chart: Dashboard")
-    model_path = "model/dl_model.pt"
-    test_loader_path = "data/test_loader.pth"
     y_test_path = "data/y_test.csv"
-    metrics_dict, y_test, y_pred_list = metrics(
-        test_loader_path, y_test_path, model_path, device="cpu"
+
+    # ml
+    ml_model_path = "model/best_gbm.pkl"
+    X_test_path = "data/X_test.csv"
+    ml_metrics_dict, y_test, ml_y_pred_list = metrics(
+        X_test_path, y_test_path, ml_model_path, mode="ml"
+    )
+
+    # dl
+    dl_model_path = "model/dl_model_1.pt"
+    test_loader_path = "data/test_loader.pth"
+    dl_metrics_dict, y_test, dl_y_pred_list = metrics(
+        test_loader_path, y_test_path, dl_model_path, mode="dl"
     )
     # 예측기 성능 대시보드
     with elements("dashboard"):
@@ -243,8 +237,9 @@ def show_dashboard():
         )
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            graphs(metrics_dict, "prediction_image_1", graph="Bar")
-            graphs(metrics_dict, "prediction_image_2", graph="Radar")
+            graphs(ml_metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
+            graphs(ml_metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
+            graph_matrix(y_test, ml_y_pred_list, "prediction_image_3")
 
         # DL 평가지표 시각화
         mui.Typography(
@@ -253,9 +248,9 @@ def show_dashboard():
         )
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            graphs(metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
-            graphs(metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
-            graph_matrix(y_test, y_pred_list, "prediction_image_3")
+            graphs(dl_metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
+            graphs(dl_metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
+            graph_matrix(y_test, dl_y_pred_list, "prediction_image_3")
 
         # 멤버별 이미지
         mui.Typography(

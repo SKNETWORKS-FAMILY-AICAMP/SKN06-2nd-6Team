@@ -15,7 +15,7 @@ def valid(dataloader, model, loss_fn, device="cpu"):
             pred = model(X)  # positive일 확률
             loss += loss_fn(pred, y).item()
             #  이진 분류에서 accuracy
-            acc += torch.sum((pred > 0.5).type(torch.int32) == y).item()
+            acc += torch.sum((pred >= 0.5).type(torch.int32) == y).item()
         loss /= len(dataloader)
         acc /= len(dataloader.dataset)
     return loss, acc
