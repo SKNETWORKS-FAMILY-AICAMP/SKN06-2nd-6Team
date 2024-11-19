@@ -13,7 +13,7 @@ from module.dataload import Preprocessor
 best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
-    dl_model = torch.load("model/dl_model_1.pt", map_location=torch.device("cpu"))
+    dl_model = torch.load("model/dl_model.pt", map_location=torch.device("cpu"))
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
     st.error(
@@ -28,7 +28,7 @@ def dl_predict(model, inputs):
     with torch.no_grad():
         inputs = inputs.to(device)
         y_pred = model(inputs)
-        y_pred = (y_pred > 0.5).type(torch.int32)
+        y_pred = (y_pred < 0.5).type(torch.int32)
         return y_pred
 
 
