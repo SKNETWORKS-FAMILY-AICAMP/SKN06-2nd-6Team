@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
-from sklearn.metrics import confusion_matrix
 from module.test import metrics
 
 
@@ -20,12 +17,34 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
             data["pred_test"] = value[i]
             nivo_data.append(data)
     elif mode == "roc":
-        fpr = metrics["fpr"]
-        tpr = metrics["tpr"]
-        roc_auc = metrics["roc_auc"]
+        fpr = metrics_dict["fpr"]
+        tpr = metrics_dict["tpr"]
+        roc_auc = metrics_dict["roc_auc"]
+        # nivo_data = [
+        #     {"id": "ROC", "data": [{"x": x, "y": y} for x, y in zip(fpr, tpr)]}
+        # ]
+        nivo_data = [
+            {
+                "id": "japan",
+                "data": [
+                    {"x": "plane", "y": 235},
+                    {"x": "helicopter", "y": 298},
+                    {"x": "boat", "y": 242},
+                    {"x": "train", "y": 209},
+                    {"x": "subway", "y": 156},
+                    {"x": "bus", "y": 261},
+                    {"x": "car", "y": 119},
+                    {"x": "moto", "y": 169},
+                    {"x": "bicycle", "y": 12},
+                    {"x": "horse", "y": 184},
+                    {"x": "skateboard", "y": 126},
+                    {"x": "others", "y": 3},
+                ],
+            }
+        ]
     elif mode == "precision-recall":
-        precision = metrics["precision"]
-        recall = metrics["recall"]
+        precision = metrics_dict["precision"]
+        recall = metrics_dict["recall"]
     elif mode == "confusion_matrix":
         pass
     # 그래프
@@ -55,58 +74,72 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
         elif graph == "Line":
             nivo.Line(
                 data=nivo_data,
-                keys=["pred_test"],
-                indexBy="metric",
-                margin={"top": 70, "right": 40, "bottom": 40, "left": 40},
-                theme={
-                    "background": "#FFFFFF",
-                    "textColor": "#31333F",
-                    "tooltip": {
-                        "container": {
-                            "background": "#FFFFFF",
-                            "color": "#31333F",
-                        }
-                    },
+                margin={"top": 50, "right": 110, "bottom": 50, "left": 60},
+                xScale={"type": "point"},
+                xFormat=" >-.2f",
+                yScale={
+                    "type": "linear",
+                    "min": "auto",
+                    "max": "auto",
+                    "stacked": True,
+                    "reverse": False,
                 },
-            )
-        elif graph == "Radar":
-            nivo.Radar(
-                data=nivo_data,
-                keys=["pred_test"],
-                indexBy="metric",
-                valueFormat=">-.2f",
-                margin={"top": 70, "right": 80, "bottom": 40, "left": 80},
-                borderColor={"from": "color"},
-                gridLabelOffset=36,
-                dotSize=10,
-                dotColor={"theme": "background"},
-                dotBorderWidth=2,
-                motionConfig="wobbly",
-                legends=[
-                    {
-                        "anchor": "top-left",
-                        "direction": "column",
-                        "translateX": -50,
-                        "translateY": -40,
-                        "itemWidth": 80,
-                        "itemHeight": 20,
-                        "itemTextColor": "#999",
-                        "symbolSize": 12,
-                        "symbolShape": "circle",
-                        "effects": [
-                            {"on": "hover", "style": {"itemTextColor": "#000"}}
-                        ],
-                    }
-                ],
-                theme={
-                    "background": "#FFFFFF",
-                    "textColor": "#31333F",
-                    "tooltip": {
-                        "container": {
-                            "background": "#FFFFFF",
-                            "color": "#31333F",
+                yFormat=" >-.2f",
+                axisTop=None,
+                axisRight=None,
+                axisBottom={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                    "legend": "transportation",
+                    "legendOffset": 36,
+                    "legendPosition": "middle",
+                    "truncateTickAt": 0,
+                },
+                axisLeft={
+                    "tickSize": 5,
+                    "tickPadding": 5,
+                    "tickRotation": 0,
+                    "legend": "count",
+                    "legendOffset": -40,
+                    "legendPosition": "middle",
+                    "truncateTickAt": 0,
+                },
+                pointSize={10},
+                pointColor={"theme": "background"},
+                pointBorderWidth={2},
+                pointBorderColor={"from": "serieColor"},
+                pointLabel="data.yFormatted",
+                pointLabelYOffset={-12},
+                enableTouchCrosshair={True},
+                useMesh={True},
+                legends={
+                    [
+                        {
+                            "anchor": "bottom-right",
+                            "direction": "column",
+                            "justify": False,
+                            "translateX": 100,
+                            "translateY": 0,
+                            "itemsSpacing": 0,
+                            "itemDirection": "left-to-right",
+                            "itemWidth": 80,
+                            "itemHeight": 20,
+                            "itemOpacity": 0.75,
+                            "symbolSize": 12,
+                            "symbolShape": "circle",
+                            "symbolBorderColor": "rgba(0, 0, 0, .5)",
+                            "effects": [
+                                {
+                                    "on": "hover",
+                                    "style": {
+                                        "itemBackground": "rgba(0, 0, 0, .03)",
+                                        "itemOpacity": 1,
+                                    },
+                                }
+                            ],
                         }
-                    },
+                    ]
                 },
             )
 
@@ -237,8 +270,13 @@ def show_dashboard():
         )
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            graphs(ml_metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
-            graphs(ml_metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
+            graphs(
+                ml_metrics_dict,
+                "prediction_image_1",
+                graph="Bar",
+                mode="metric",
+            )
+            # graphs(ml_metrics_dict, "prediction_image_2", graph="line", mode="roc")
             graph_matrix(y_test, ml_y_pred_list, "prediction_image_3")
 
         # DL 평가지표 시각화
@@ -248,8 +286,18 @@ def show_dashboard():
         )
         with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
             # 1: Model performance metrics, 2: Loss & Accurcy, 3: ROC Curve, 4: Precision-Recall Curve, 5: Confusion Matrix
-            graphs(dl_metrics_dict, "prediction_image_1", graph="Bar", mode="metric")
-            graphs(dl_metrics_dict, "prediction_image_2", graph="Radar", mode="metric")
+            graphs(
+                dl_metrics_dict,
+                "prediction_image_1",
+                graph="Bar",
+                mode="metric",
+            )
+            graphs(
+                dl_metrics_dict,
+                "prediction_image_2",
+                graph="line",
+                mode="roc",
+            )
             graph_matrix(y_test, dl_y_pred_list, "prediction_image_3")
 
         # 멤버별 이미지

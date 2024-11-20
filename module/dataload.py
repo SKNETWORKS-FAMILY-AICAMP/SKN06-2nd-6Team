@@ -47,13 +47,16 @@ def load_data(data, learning_type=None, batch_size=None):
     pd.DataFrame(y_test).to_csv("data/y_test.csv")
     # 데이터 표준화
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+
+    pd.DataFrame(X_test_scaled, index=X_test.index).to_csv("data/X_test_scaled.csv")
+
     if learning_type == "ml":
         X_train, X_valid, y_train, y_valid = train_test_split(
-            X_train, y_train, test_size=0.25, stratify=y_train, random_state=0
+            X_train_scaled, y_train, test_size=0.25, stratify=y_train, random_state=0
         )
-        return X_train, X_valid, y_train, y_valid, X_test, y_test
+        return X_train, X_valid, y_train, y_valid, X_test_scaled, y_test
 
     elif learning_type == "dl":
         y_train = y_train.values
@@ -61,7 +64,7 @@ def load_data(data, learning_type=None, batch_size=None):
         y_test = y_test.values
         y_test = y_test.reshape(-1, 1)
         train_loader = set_dataloader(
-            X_train, y_train, batch_size=batch_size, mode="train"
+            X_train_scaled, y_train, batch_size=batch_size, mode="train"
         )
-        test_loader, y_test = set_dataloader(X_test, y_test, mode="test")
+        test_loader, y_test = set_dataloader(X_test_scaled, y_test, mode="test")
         return train_loader, test_loader, y_test

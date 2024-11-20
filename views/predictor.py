@@ -4,13 +4,16 @@ import joblib
 import torch
 from module.dl_model import ChurnPredictionModel
 from module.dataload import Preprocessor
+from sklearn.preprocessing import StandardScaler
 
 
 # Load models
 best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
-    dl_model = torch.load("model/dl_model_1.pt", map_location=torch.device("cpu"))
+    dl_model = torch.load(
+        "model/dl_model_1.pt", map_location=torch.device("cpu"), weights_only=False
+    )
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
     st.error(
@@ -38,10 +41,11 @@ def show_predictor():
     st.subheader("Loaded Dataset:", divider=True)
     st.write(data)
 
-    # data = Preprocessor().preprocess("data/X_test.csv")
+    # preprocess
+    data_scaled = pd.read_csv("data/X_test_scaled.csv", index_col=0)
 
     st.subheader("Preprocessed Dataset:", divider=True)
-    st.write(data)
+    st.write(data_scaled)
 
     # Choose model for prediction
     st.subheader("Prediction", divider=True)
@@ -52,7 +56,7 @@ def show_predictor():
 
     if st.button("Predict"):
         # Prepare data for prediction
-        features = data.values
+        features = data_scaled.values
 
         if model_choice == "Gradient Boosting Machine (GBM)":
             predictions = best_gbm.predict(features)
