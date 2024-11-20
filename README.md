@@ -72,7 +72,21 @@ ________________________________________________________________________________
   <img src="https://github.com/user-attachments/assets/2841617a-8baf-4860-996f-175eec8ed526" alt="Multicollinearity Check" width="600"/>
 </p>
 
-   
+ ### - 전처리
+ ##### a. 결측치
+    - target 데이터인 label에만 결측치 존재하여 해당 행 추출 및 샘플 데이터로 따로 저장
+
+ ##### b. 이상치
+    - 이상치를 사분위수를 기준으로 판정.
+    - IQR(Inter Quartile Range) = 3분위수 - 1분위수 계산
+    - 정상범위: q1 - 1.5 * iqr <= v <= q3 + 1.5 * iqr
+    - 이상치를 정상범위로 처리한 결과 머신러닝에서 base model이 overfitting되는 상황이 발생
+    - 분포에만 포함이 되지 않을 뿐 유의미한 데이터들로 간주하여 그대로 사용.
+ ##### c. Feature Engineering
+    - 범주형: Label Encoding, One Hot Encoding
+    - label: 타겟 데이터이므로 Lable Encoding 처리
+    - device: One Hot Encoding 처리
+    - 수치형: Standard Scaler
 ______________________________________________________________________________________________________
 
 ## 3. 모델링
