@@ -3,18 +3,18 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
 
 
 class Preprocessor:
-    def preprocess(self, data_path):
-        data = pd.read_csv(data_path, index_col=0)
+    def preprocess(self, data):
         # 결측치 삭제
         data.dropna(inplace=True)
         # label encoding
         if "label" in data.columns:
-            data["label"] = data["label"].map({"churned": 1, "retained": 0})
+            le = LabelEncoder()
+            data["label"] = le.fit_transform(data["label"])
         # one hot encoding
         data = pd.get_dummies(data, columns=["device"], dtype=np.float32)
         return data
@@ -27,9 +27,7 @@ def set_dataloader(X, y, batch_size=None, mode=None):
         torch.tensor(y, dtype=torch.float32),
     )
     if mode == "train":
-        loader = DataLoader(
-            dataset, batch_size=batch_size, shuffle=True, drop_last=True
-        )
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
         return loader
     if mode == "test":
         loader = DataLoader(dataset, batch_size=2860)
@@ -48,6 +46,9 @@ def load_data(data, learning_type=None, batch_size=None):
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
+
+    pd.DataFrame(X_test_scaled, index=X_test.index).to_csv("data/X_test_1.csv")
+    pd.DataFrame(y_test, index=y_test.index).to_csv("data/y_test_1.csv")
 
     if learning_type == "ml":
         X_train, X_valid, y_train, y_valid = train_test_split(

@@ -185,6 +185,8 @@ def graph_matrix(y_test, y_pred_list, key):
             },
             cellOpacity=1,
             cellBorderColor={"from": "color", "modifiers": [["darker", 0.4]]},
+            colors={"type": "quantize", "scheme": "green_blue"},
+            hoverTarget="cell",
         )
 
 
@@ -245,7 +247,7 @@ def show_dashboard():
     )
 
     # dl
-    dl_model_path = "model/dl_model_1.pt"
+    dl_model_path = "model/dl_model.pt"
     test_loader_path = "data/test_loader.pth"
     dl_metrics_dict, y_test, dl_y_pred_list = metrics(
         test_loader_path, y_test_path, dl_model_path, mode="dl"
@@ -277,7 +279,7 @@ def show_dashboard():
                 mode="metric",
             )
             # graphs(ml_metrics_dict, "prediction_image_2", graph="line", mode="roc")
-            graph_matrix(y_test, ml_y_pred_list, "prediction_image_3")
+            graph_matrix(y_test, ml_y_pred_list, "prediction_image_2")
 
         # DL 평가지표 시각화
         mui.Typography(
@@ -292,13 +294,13 @@ def show_dashboard():
                 graph="Bar",
                 mode="metric",
             )
+            graph_matrix(y_test, dl_y_pred_list, "prediction_image_2")
             graphs(
                 dl_metrics_dict,
-                "prediction_image_2",
+                "prediction_image_3",
                 graph="line",
                 mode="roc",
             )
-            graph_matrix(y_test, dl_y_pred_list, "prediction_image_3")
 
         # 멤버별 이미지
         mui.Typography(

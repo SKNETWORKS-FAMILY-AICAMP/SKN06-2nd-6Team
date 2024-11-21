@@ -20,7 +20,6 @@ def dl_test(test_loader, best_model, device="cpu"):
     best_model.eval()
     # 모델 평가
     prob_test = []
-    result = []
     with torch.no_grad():
         for X_batch, y_batch in test_loader:
             X_batch, y_batch = X_batch.to(device), y_batch.to(device)
@@ -33,10 +32,10 @@ def metrics(test_loader_path, y_test_path, model_path, mode="ml"):
     y_test = pd.read_csv(y_test_path, index_col=0)
     y_test = y_test.values
     if mode == "ml":
-        X_test = pd.read_csv(test_loader_path, index_col=0)
+        test_loader = pd.read_csv(test_loader_path, index_col=0)
         best_model = joblib.load(model_path)
-        y_pred_list = best_model.predict(X_test)
-        y_prob_list = best_model.predict_proba(X_test)[:, 1]
+        y_pred_list = best_model.predict(test_loader)
+        y_prob_list = best_model.predict_proba(test_loader)[:, 1]
 
     elif mode == "dl":
         test_loader = torch.load(test_loader_path, weights_only=False)
@@ -54,7 +53,6 @@ def metrics(test_loader_path, y_test_path, model_path, mode="ml"):
     # roc curve
     fpr, tpr, _ = roc_curve(y_test, y_prob_list)
     roc_auc = auc(fpr, tpr)
-    print(roc_auc)
     metrics["fpr"] = fpr
     metrics["tpr"] = tpr
     metrics["roc_auc"] = roc_auc

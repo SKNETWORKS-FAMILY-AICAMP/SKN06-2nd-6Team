@@ -12,7 +12,7 @@ best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
     dl_model = torch.load(
-        "model/dl_model_1.pt", map_location=torch.device("cpu"), weights_only=False
+        "model/dl_model.pt", map_location=torch.device("cpu"), weights_only=False
     )
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
@@ -43,45 +43,49 @@ def show_predictor():
     )
     if file is not None:
         data = pd.read_csv(file, index_col=0)
+
+        # Load dataset
+        st.subheader("Loaded Dataset:", divider=True)
+        st.write(data)
+
+        # Preprocess dataset
+        data = Preprocessor().preprocess(data)
+        st.subheader("Preprocessed Dataset:", divider=True)
+        st.write(data)
+
+        scl = joblib.load("module/scaler.pkl")
+        scaled_data = scl.transform(data)
+
+        # Choose model for prediction
+        st.subheader("Prediction", divider=True)
+        model_choice = st.selectbox(
+            "Choose the prediction model:",
+            ("Gradient Boosting Machine (GBM)", "Deep Learning Model"),
+        )
+
+        if st.button("Predict"):
+            # Prepare data for prediction
+            features = scaled_data
+
+            if model_choice == "Gradient Boosting Machine (GBM)":
+                predictions = best_gbm.predict(features)
+            elif model_choice == "Deep Learning Model":
+                predictions = dl_predict(dl_model, features)
+
+            predictions = pd.DataFrame(predictions, columns=["Churn"], index=data.index)
+            predictions["Churn"] = predictions["Churn"].map({1: "No", 0: "Yes"})
+            yes = predictions[predictions["Churn"] == "Yes"]
+            no = predictions[predictions["Churn"] == "No"]
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Yes:", yes.shape[0])
+                st.dataframe(yes, use_container_width=True)
+            with col2:
+                st.write("No:", no.shape[0])
+                st.dataframe(no, use_container_width=True)
     else:
-        data = pd.read_csv("data/sample_data.csv", index_col=0)
-    st.subheader("Loaded Dataset:", divider=True)
-    st.write(data)
-
-    data = Preprocessor().preprocess("data/sample_data.csv")
-    st.subheader("Preprocessed Dataset:", divider=True)
-    st.write(data)
-
-    scl = joblib.load("module/scaler.pkl")
-    scaled_data = scl.transform(data)
-
-    # Choose model for prediction
-    st.subheader("Prediction", divider=True)
-    model_choice = st.selectbox(
-        "Choose the prediction model:",
-        ("Gradient Boosting Machine (GBM)", "Deep Learning Model"),
-    )
-
-    if st.button("Predict"):
-        # Prepare data for prediction
-        features = scaled_data
-
-        if model_choice == "Gradient Boosting Machine (GBM)":
-            predictions = best_gbm.predict(features)
-        elif model_choice == "Deep Learning Model":
-            predictions = dl_predict(dl_model, features)
-
-        predictions = pd.DataFrame(predictions, columns=["Churn"], index=data.index)
-        predictions["Churn"] = predictions["Churn"].map({0: "No", 1: "Yes"})
-        yes = predictions[predictions["Churn"] == "Yes"]
-        no = predictions[predictions["Churn"] == "No"]
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("Yes:", yes.shape[0])
-            st.dataframe(yes, use_container_width=True)
-        with col2:
-            st.write("No:", no.shape[0])
-            st.dataframe(no, use_container_width=True)
+        # data = pd.read_csv("data/sample_data.csv", index_col=0)
+        st.error("Please upload a CSV file.")
 
 
 if __name__ == "__main__":
