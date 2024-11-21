@@ -7,6 +7,7 @@ from module.dataload import Preprocessor
 
 # Load models
 best_gbm = joblib.load("model/best_gbm.pkl")
+best_lr = joblib.load("model/best_lr.pkl")
 
 try:
     dl_model = torch.load(
@@ -58,7 +59,11 @@ def show_predictor():
         st.subheader("Prediction", divider=True)
         model_choice = st.selectbox(
             "Choose the prediction model:",
-            ("Gradient Boosting Machine (GBM)", "Deep Learning Model"),
+            (
+                "Gradient Boosting Machine (GBM)",
+                "Logistic Regression",
+                "Deep Learning Model",
+            ),
         )
 
         if st.button("Predict"):
@@ -67,6 +72,8 @@ def show_predictor():
 
             if model_choice == "Gradient Boosting Machine (GBM)":
                 predictions = best_gbm.predict(features)
+            elif model_choice == "Logistic Regression":
+                predictions = best_lr.predict(features)
             elif model_choice == "Deep Learning Model":
                 predictions = dl_predict(dl_model, features)
 
