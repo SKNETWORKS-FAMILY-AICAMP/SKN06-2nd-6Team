@@ -1,12 +1,5 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import streamlit.components.v1 as html
-from PIL import Image
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import io
 from views import data, about, predictor, dashboard, team
 
 # page config

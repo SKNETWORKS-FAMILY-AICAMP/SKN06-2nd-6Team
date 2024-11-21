@@ -63,7 +63,7 @@ def show_data():
                 ax=ax,
             )
         sns.move_legend(ax, "upper left", bbox_to_anchor=(1, 1))
-        ax.set_title(f"{selected_column} 이탈 분포", fontsize=16)
+        ax.set_title(f"{selected_column} Distribution", fontsize=16)
         st.pyplot(fig)
     # 상관계수
     st.subheader(":five: Correlation", divider=True)
@@ -80,7 +80,7 @@ def show_data():
             cmap="Blues",
             ax=ax,
         )
-        ax.set_title("상관계수", fontsize=16)
+        ax.set_title("Corration", fontsize=16)
         st.pyplot(fig)
     st.divider()
     # 추가 시각화? 정보?

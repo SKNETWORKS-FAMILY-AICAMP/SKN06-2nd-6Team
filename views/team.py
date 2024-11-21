@@ -1,6 +1,4 @@
-import streamlit as st
-import pandas as pd
-from streamlit_elements import elements, dashboard, mui, nivo
+from streamlit_elements import elements, dashboard, mui
 
 
 def member_image(handle_layout_change):

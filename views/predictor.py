@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import torch
-from module.dl_model import ChurnPredictionModel
 from module.dataload import Preprocessor
-from sklearn.preprocessing import StandardScaler
 
 
 # Load models
