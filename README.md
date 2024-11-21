@@ -8,7 +8,7 @@
 | 팀장 | 팀원1 | 팀원2 | 팀원3 |
 | --- | --- | --- | --- |
 |<img src="https://github.com/user-attachments/assets/5a96b969-a5b1-4d00-8b41-dcc3c51cb747" alt="busil gamza" width="250"/>|<img src="https://github.com/user-attachments/assets/5561d8f1-e92c-400b-8419-44ea0e90466c" alt="seunghyun" width="250"/>|<img src="https://github.com/user-attachments/assets/7b0758fc-6927-474c-a39a-ff72f9360fdf" alt="haeun" width="250"/>|<img src="https://github.com/user-attachments/assets/1b667da5-59ff-405a-aff9-8145e919272a" alt="seoyoon" width="250"/>|
-| 정유진 | 김승현 | 백하은 | 박서윤 |
+| 정유진_전처리, DL, streamlit | 김승현_DL | 백하은_결과보고서, ML, streamlit  | 박서윤_ML |
 
 
 ## 1. 프로젝트 소개
