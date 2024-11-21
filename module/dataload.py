@@ -47,8 +47,10 @@ def load_data(data, learning_type=None, batch_size=None):
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    pd.DataFrame(X_test_scaled, index=X_test.index).to_csv("data/X_test_1.csv")
-    pd.DataFrame(y_test, index=y_test.index).to_csv("data/y_test_1.csv")
+    joblib.dump(scaler, "model/scaler.joblib")
+
+    pd.DataFrame(X_test_scaled, index=X_test.index).to_csv("data/X_test.csv")
+    pd.DataFrame(y_test, index=y_test.index).to_csv("data/y_test.csv")
 
     if learning_type == "ml":
         X_train, X_valid, y_train, y_valid = train_test_split(

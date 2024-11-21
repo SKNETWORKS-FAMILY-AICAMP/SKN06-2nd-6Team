@@ -12,7 +12,7 @@ best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
     dl_model = torch.load(
-        "model/dl_model.pt", map_location=torch.device("cpu"), weights_only=False
+        "model/dl_model_1.pt", map_location=torch.device("cpu"), weights_only=False
     )
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:

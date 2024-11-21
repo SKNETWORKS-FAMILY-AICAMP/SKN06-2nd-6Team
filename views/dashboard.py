@@ -4,7 +4,7 @@ from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sy
 from module.test import metrics
 
 
-def graphs(metrics_dict, key, mode="metric", graph="Bar"):
+def graphs(metrics_dict, key, mode="metric", graph="Bar", lr="ml"):
     # 그래프 모드
     if mode == "metric":
         metric = metrics_dict["metric"]
@@ -16,40 +16,15 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
             value[i] = round(value[i], 4)
             data["pred_test"] = value[i]
             nivo_data.append(data)
-    elif mode == "roc":
-        fpr = metrics_dict["fpr"]
-        tpr = metrics_dict["tpr"]
-        roc_auc = metrics_dict["roc_auc"]
-        # nivo_data = [
-        #     {"id": "ROC", "data": [{"x": x, "y": y} for x, y in zip(fpr, tpr)]}
-        # ]
-        nivo_data = [
-            {
-                "id": "japan",
-                "data": [
-                    {"x": "plane", "y": 235},
-                    {"x": "helicopter", "y": 298},
-                    {"x": "boat", "y": 242},
-                    {"x": "train", "y": 209},
-                    {"x": "subway", "y": 156},
-                    {"x": "bus", "y": 261},
-                    {"x": "car", "y": 119},
-                    {"x": "moto", "y": 169},
-                    {"x": "bicycle", "y": 12},
-                    {"x": "horse", "y": 184},
-                    {"x": "skateboard", "y": 126},
-                    {"x": "others", "y": 3},
-                ],
-            }
-        ]
     elif mode == "precision-recall":
         precision = metrics_dict["precision"]
         recall = metrics_dict["recall"]
     elif mode == "confusion_matrix":
         pass
     # 그래프
-    with mui.Box(key=key, sx={"height": 500}, display="flex"):
-        if graph == "Bar":  # Accuracy, Recall, Precision, F1
+
+    if graph == "Bar":  # Accuracy, Recall, Precision, F1
+        with mui.Box(key=key, sx={"height": 500}, display="flex"):
             # 그래프 표시
             nivo.Bar(
                 data=nivo_data,
@@ -71,89 +46,33 @@ def graphs(metrics_dict, key, mode="metric", graph="Bar"):
                     },
                 },
             )
-        elif graph == "Line":
-            nivo.Line(
-                data=nivo_data,
-                margin={"top": 50, "right": 110, "bottom": 50, "left": 60},
-                xScale={"type": "point"},
-                xFormat=" >-.2f",
-                yScale={
-                    "type": "linear",
-                    "min": "auto",
-                    "max": "auto",
-                    "stacked": True,
-                    "reverse": False,
-                },
-                yFormat=" >-.2f",
-                axisTop=None,
-                axisRight=None,
-                axisBottom={
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": 0,
-                    "legend": "transportation",
-                    "legendOffset": 36,
-                    "legendPosition": "middle",
-                    "truncateTickAt": 0,
-                },
-                axisLeft={
-                    "tickSize": 5,
-                    "tickPadding": 5,
-                    "tickRotation": 0,
-                    "legend": "count",
-                    "legendOffset": -40,
-                    "legendPosition": "middle",
-                    "truncateTickAt": 0,
-                },
-                pointSize={10},
-                pointColor={"theme": "background"},
-                pointBorderWidth={2},
-                pointBorderColor={"from": "serieColor"},
-                pointLabel="data.yFormatted",
-                pointLabelYOffset={-12},
-                enableTouchCrosshair={True},
-                useMesh={True},
-                legends={
-                    [
-                        {
-                            "anchor": "bottom-right",
-                            "direction": "column",
-                            "justify": False,
-                            "translateX": 100,
-                            "translateY": 0,
-                            "itemsSpacing": 0,
-                            "itemDirection": "left-to-right",
-                            "itemWidth": 80,
-                            "itemHeight": 20,
-                            "itemOpacity": 0.75,
-                            "symbolSize": 12,
-                            "symbolShape": "circle",
-                            "symbolBorderColor": "rgba(0, 0, 0, .5)",
-                            "effects": [
-                                {
-                                    "on": "hover",
-                                    "style": {
-                                        "itemBackground": "rgba(0, 0, 0, .03)",
-                                        "itemOpacity": 1,
-                                    },
-                                }
-                            ],
-                        }
-                    ]
-                },
-            )
+
+
+def roc(key, lr):
+    if lr == "ml":
+        image = "image/ML/ROC.png"
+    else:
+        image = "image/DL/ROC.png"
+    with mui.paper(key=key):
+        mui.Box(
+            component="img",
+            src=image,
+            alt="ROC Curve",
+            sx={"width": "100%", "height": "100%"},
+        )
 
 
 def graph_matrix(y_test, y_pred_list, key):
     with mui.Box(key=key, sx={"height": 500}, display="flex"):
         # MATRIX
-        y_actu = pd.Series(y_test.reshape(-1), name="Actual")
+        values = y_test.values
+        y_actu = pd.Series(values.reshape(-1), name="Actual")
         y_pred = pd.Series(y_pred_list, name="Predicted")
         df_confusion = pd.crosstab(
             y_actu, y_pred, rownames=["Actual"], colnames=["Predicted"]
         )
-        df_confusion.columns = ["Retained", "Churned"]
-        df_confusion.index = ["Retained", "Churned"]
+        df_confusion.columns = ["Churned", "Retained"]
+        df_confusion.index = ["Churned", "Retained"]
         heatmap_data = []
         for index, row in df_confusion.iterrows():
             row_data = {
@@ -166,7 +85,7 @@ def graph_matrix(y_test, y_pred_list, key):
             data=heatmap_data,
             keys=["x"],
             indexBy="id",
-            margin={"top": 50, "right": 60, "bottom": 50, "left": 90},
+            margin={"top": 50, "right": 20, "bottom": 50, "left": 60},
             axisTop={
                 "tickSize": 5,
                 "tickPadding": 15,
@@ -187,6 +106,7 @@ def graph_matrix(y_test, y_pred_list, key):
             cellBorderColor={"from": "color", "modifiers": [["darker", 0.4]]},
             colors={"type": "quantize", "scheme": "green_blue"},
             hoverTarget="cell",
+            labelTextColor="#000000",
         )
 
 
@@ -247,7 +167,7 @@ def show_dashboard():
     )
 
     # dl
-    dl_model_path = "model/dl_model.pt"
+    dl_model_path = "model/dl_model_1.pt"
     test_loader_path = "data/test_loader.pth"
     dl_metrics_dict, y_test, dl_y_pred_list = metrics(
         test_loader_path, y_test_path, dl_model_path, mode="dl"
@@ -256,10 +176,9 @@ def show_dashboard():
     with elements("dashboard"):
         layout = [
             # Parameters: element_identifier, x_pos, y_pos, width, height
-            dashboard.Item("prediction_image_1", 0, 2, 5, 3),
-            dashboard.Item("prediction_image_2", 5, 2, 5, 3),
-            dashboard.Item("prediction_image_3", 0, 6, 5, 3),
-            dashboard.Item("prediction_image_4", 5, 6, 5, 3),
+            dashboard.Item("prediction_image_1", 0, 2, 3.2, 2),
+            dashboard.Item("prediction_image_2", 3.5, 2, 3.2, 2),
+            dashboard.Item("prediction_image_3", 7, 2, 3.2, 2),
         ]
 
         def handle_layout_change(updated_layout):
@@ -277,9 +196,17 @@ def show_dashboard():
                 "prediction_image_1",
                 graph="Bar",
                 mode="metric",
+                lr="ml",
             )
-            # graphs(ml_metrics_dict, "prediction_image_2", graph="line", mode="roc")
             graph_matrix(y_test, ml_y_pred_list, "prediction_image_2")
+            image = "image/ML/ROC.png"
+            mui.Box(
+                key="prediction_image_3",
+                component="img",
+                src=image,
+                alt="ROC Curve",
+                sx={"width": "100%", "height": "100%"},
+            )
 
         # DL 평가지표 시각화
         mui.Typography(
@@ -293,6 +220,7 @@ def show_dashboard():
                 "prediction_image_1",
                 graph="Bar",
                 mode="metric",
+                lr="dl",
             )
             graph_matrix(y_test, dl_y_pred_list, "prediction_image_2")
             graphs(
@@ -300,6 +228,15 @@ def show_dashboard():
                 "prediction_image_3",
                 graph="line",
                 mode="roc",
+                lr="dl",
+            )
+            image = "image/ML/ROC.png"
+            mui.Box(
+                key="prediction_image_3",
+                component="img",
+                src=image,
+                alt="ROC Curve",
+                sx={"width": "100%", "height": "100%"},
             )
 
         # 멤버별 이미지

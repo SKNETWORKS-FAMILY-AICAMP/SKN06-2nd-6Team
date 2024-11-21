@@ -30,7 +30,8 @@ def dl_test(test_loader, best_model, device="cpu"):
 
 def metrics(test_loader_path, y_test_path, model_path, mode="ml"):
     y_test = pd.read_csv(y_test_path, index_col=0)
-    y_test = y_test.values
+    # y_test = y_test.values
+
     if mode == "ml":
         test_loader = pd.read_csv(test_loader_path, index_col=0)
         best_model = joblib.load(model_path)
