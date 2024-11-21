@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import joblib
 
 
 class Preprocessor:
@@ -43,12 +44,11 @@ def load_data(data, learning_type=None, batch_size=None):
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, stratify=y, test_size=0.2, random_state=0
     )
-    pd.DataFrame(X_test).to_csv("data/X_test.csv")
-    pd.DataFrame(y_test).to_csv("data/y_test.csv")
     # 데이터 표준화
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
+    joblib.dump(scaler, "module/scaler.pkl")
     if learning_type == "ml":
         X_train, X_valid, y_train, y_valid = train_test_split(
             X_train, y_train, test_size=0.25, stratify=y_train, random_state=0

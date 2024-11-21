@@ -34,14 +34,23 @@ def show_predictor():
     st.header(":bookmark_tabs: Customer Churn Prediction Service")
 
     # dataset
-    data = pd.read_csv("data/X_test.csv", index_col=0)
+    file = st.file_uploader(
+        "Upload a CSV file",
+        type="csv",
+    )
+    if file is not None:
+        data = pd.read_csv(file, index_col=0)
+    else:
+        data = pd.read_csv("data/sample_data.csv", index_col=0)
     st.subheader("Loaded Dataset:", divider=True)
     st.write(data)
 
-    # data = Preprocessor().preprocess("data/X_test.csv")
-
+    data = Preprocessor().preprocess("data/sample_data.csv")
     st.subheader("Preprocessed Dataset:", divider=True)
     st.write(data)
+
+    scl = joblib.load("module/scaler.pkl")
+    scaled_data = scl.transform(data)
 
     # Choose model for prediction
     st.subheader("Prediction", divider=True)
@@ -52,7 +61,7 @@ def show_predictor():
 
     if st.button("Predict"):
         # Prepare data for prediction
-        features = data.values
+        features = scaled_data
 
         if model_choice == "Gradient Boosting Machine (GBM)":
             predictions = best_gbm.predict(features)
@@ -61,25 +70,14 @@ def show_predictor():
 
         predictions = pd.DataFrame(predictions, columns=["Churn"], index=data.index)
         predictions["Churn"] = predictions["Churn"].map({0: "No", 1: "Yes"})
-        y_test = pd.read_csv("data/y_test.csv", index_col=0)
-        y_test.columns = ["label"]
-        y_test["label"] = y_test["label"].map({0: "No", 1: "Yes"})
-        predictions["Actual"] = y_test["label"]
         yes = predictions[predictions["Churn"] == "Yes"]
         no = predictions[predictions["Churn"] == "No"]
-        real_yes = y_test[y_test["label"] == "Yes"]
-        real_no = y_test[y_test["label"] == "No"]
         col1, col2 = st.columns(2)
         with col1:
-            st.write(
-                "Yes:",
-                yes.shape[0],
-                "Real Yes:",
-                real_yes.shape[0],
-            )
+            st.write("Yes:", yes.shape[0])
             st.dataframe(yes, use_container_width=True)
         with col2:
-            st.write("No:", no.shape[0], "Real No:", real_no.shape[0])
+            st.write("No:", no.shape[0])
             st.dataframe(no, use_container_width=True)
 
 
