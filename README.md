@@ -261,6 +261,11 @@ c. Machine Learning & Deep Learning confusion matrix 비교
 
 <table>
   <tr>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/232b41cf-cb10-451c-b8ba-94847bbcd28d" alt="Team" width="500" />
+      <br />
+      <b>Team</b>
+    </td>
     <td align="center">
       <img src="https://github.com/user-attachments/assets/b12643b2-27f5-453c-9473-8f13e8fb6efc" alt="About" width="500" />
       <br />
@@ -279,13 +284,15 @@ c. Machine Learning & Deep Learning confusion matrix 비교
       <b>Predictor</b>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/2bee2846-aae3-4069-bf2e-710b479a3e1b" alt="Dashboard" width="500" />
+      <img src="https://github.com/user-attachments/assets/5a7e0815-23b5-4c2d-b05a-97bdb26d0e16" alt="Dashboard" width="500" />
       <br />
       <b>Dashboard</b>
     </td>
   </tr>
 </table>
 
+- Team
+  : '아무래도귀엽조' 팀원들을 소개합니다.
 - About
   : Waze 어플과 예측 서비스에 대해 소개합니다.
 - Data
