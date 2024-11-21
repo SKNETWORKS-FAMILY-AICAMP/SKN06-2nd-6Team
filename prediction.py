@@ -7,32 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-from views import data, about, predictor, dashboard
-
-
-# Home Page
-# Provides an overview of the app and its purpose.
-
-# Data Page
-# Displays basic information about the dataset.
-# Shows summary statistics of numerical variables.
-# Provides the first few rows of the dataset.
-# Conducts univariate and bivariate analysis.
-# Presents additional analysis using pandas styling.
-
-# Predictor Page
-# Batch Prediction: Upload a CSV dataset containing customer information to predict churn.
-# Online Prediction: Input customer details interactively to predict churn.
-
-# Dashboard Page
-# Provides visualizations and analytics related to customer churn.
-# Includes research questions and key performance indicators.
-# Offers insights through various charts and plots.
-
-# History Page
-# Tracks user interactions with the app.
-# Displays a history log of actions performed by the user.
-# Allows navigating back to previous points in history.
+from views import data, about, predictor, dashboard, team
 
 # page config
 st.set_page_config(
@@ -46,8 +21,9 @@ st.set_page_config(
 with st.sidebar:
     choose = option_menu(
         menu_title="Churn prediction",
-        options=["About", "Data", "Predictor", "Dash board"],
+        options=["Team", "About", "Data", "Predictor", "Dash board"],
         icons=[
+            "bi bi-people",
             "bi bi-cursor",
             "bi bi-archive",
             "bi bi-graph-up-arrow",
@@ -70,7 +46,9 @@ with st.sidebar:
 ######################################################
 
 # About Page
-if choose == "About":
+if choose == "Team":
+    team.show_team()
+elif choose == "About":
     about.show_about()
 # Data Page
 elif choose == "Data":
