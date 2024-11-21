@@ -49,8 +49,6 @@ def load_data(data, learning_type=None, batch_size=None):
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    pd.DataFrame(X_test_scaled, index=X_test.index).to_csv("data/X_test_scaled.csv")
-
     if learning_type == "ml":
         X_train, X_valid, y_train, y_valid = train_test_split(
             X_train_scaled, y_train, test_size=0.25, stratify=y_train, random_state=0
