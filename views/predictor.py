@@ -4,13 +4,16 @@ import joblib
 import torch
 from module.dl_model import ChurnPredictionModel
 from module.dataload import Preprocessor
+from sklearn.preprocessing import StandardScaler
 
 
 # Load models
 best_gbm = joblib.load("model/best_gbm.pkl")
 
 try:
-    dl_model = torch.load("model/dl_model_1.pt", map_location=torch.device("cpu"))
+    dl_model = torch.load(
+        "model/dl_model_1.pt", map_location=torch.device("cpu"), weights_only=False
+    )
     dl_model.eval()  # Set model to evaluation mode
 except AttributeError:
     st.error(

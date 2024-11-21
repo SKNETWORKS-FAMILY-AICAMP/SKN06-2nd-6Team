@@ -54,6 +54,7 @@ def metrics(test_loader_path, y_test_path, model_path, mode="ml"):
     # roc curve
     fpr, tpr, _ = roc_curve(y_test, y_prob_list)
     roc_auc = auc(fpr, tpr)
+    print(roc_auc)
     metrics["fpr"] = fpr
     metrics["tpr"] = tpr
     metrics["roc_auc"] = roc_auc
